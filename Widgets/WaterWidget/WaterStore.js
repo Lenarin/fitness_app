@@ -1,6 +1,8 @@
 import { decorate, observable, action } from "mobx";
+import { persist } from "mobx-persist";
 
 class WaterStore {
+    @persist
     @observable
     current = 0;
 

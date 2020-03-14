@@ -1,15 +1,18 @@
 import React from 'react'
-import { View, StyleSheet, Text } from 'react-native'
+import { View, StyleSheet, Text, AsyncStorage } from 'react-native'
 import { observer } from 'mobx-react'
 import { Card, Avatar, IconButton, Colors } from 'react-native-paper'
 import WaterStore from './WaterStore';
 import { useNavigation } from '@react-navigation/native';
+import { create } from 'mobx-persist';
 
-//TODO: надо чет сделать с песистом
-const store = new WaterStore();
+const waterStore = new WaterStore();
 
-/*
-*/
+const hydrate = create({
+    storage: AsyncStorage
+});
+
+hydrate('Water', waterStore);
 
 const WaterWidget = observer(() => {
     const navigator = useNavigation();
@@ -25,13 +28,13 @@ const WaterWidget = observer(() => {
             
             <Card.Content style={styles.cardContent}>
                 <Text>
-                    Сегодня Вы выпили {store.current} стаканов воды
+                    Сегодня Вы выпили {waterStore.current} стаканов воды
                 </Text>
             </Card.Content>
 
             <Card.Actions style={styles.cardActions}>
-                <IconButton color={Colors.grey800} icon="minus-circle-outline" onPress={() => store.dec()} />
-                <IconButton color={Colors.grey800} icon="plus-circle-outline" onPress={() => store.inc()} />
+                <IconButton color={Colors.grey800} icon="minus-circle-outline" onPress={() => waterStore.dec()} />
+                <IconButton color={Colors.grey800} icon="plus-circle-outline" onPress={() => waterStore.inc()} />
             </Card.Actions>
         </Card>
 	);
@@ -51,9 +54,6 @@ const styles = StyleSheet.create({
     card: {
         margin: 10,
         backgroundColor: "#fafafa"
-    },
-    actionIcon: {
-        color: "e6e6e6"
     },
     cardContent: {
         flex: 1,

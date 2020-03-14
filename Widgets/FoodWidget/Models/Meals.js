@@ -1,5 +1,6 @@
 class Meal {
     EatenFood = []
+    
     MealTime = new Date();
 }
 

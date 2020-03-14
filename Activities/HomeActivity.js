@@ -37,5 +37,6 @@ export default function HomeActivity({navigation}) {
       backgroundColor: '#e6e6e6',
       alignItems: 'stretch',
       justifyContent: 'center',
+      paddingTop: 25
     },
   });
