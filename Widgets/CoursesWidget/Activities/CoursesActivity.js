@@ -8,7 +8,7 @@ const CoursesActivity = observer(({navigation}) => {
 	return (
 		<View style={styles.container}>
 			<Text>
-				<b>{rootStore.tickStore.current}</b>
+				{tickStore.current}
 			</Text>
 			<Button title="Incriment" onPress={() => rootStore.tickStore.inc()} />
 			<Button title="Decrement" onPress={() => rootStore.tickStore.dec()} />
