@@ -45,7 +45,6 @@ export default function HomeActivity() {
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={Test} />
       {widgets.map(elem => elem.activity ? <HomeStack.Screen name={elem.name} component={elem.activity} /> : null)}
-      {/*<HomeStack.Screen name="Food List" component={FoodListActivity} />*/}
     </HomeStack.Navigator>
   )
 }
