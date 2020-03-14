@@ -1,14 +1,26 @@
-import CourseStore from '../Widgets/CoursesWidget/CoursesStore';
+import CourseStore from './CoursesStore';
 import TickStore from './TickStore';
-import FoodStore from '../Widgets/FoodWidget/FoodStore';
-import { observable, autorun } from 'mobx';
+import { observable } from 'mobx';
 import { AsyncStorage } from 'react-native';
+import { create, persist } from 'mobx-persist';
 
-// если хранить стейт в одном объекте, то можно удобно восстанавливать его целиком
-// с другой стороны мы предполагали модульную архитектуру микро приложений, изолтрованных друг от друга
-// тогда логичней было бы складывать стор рядом с соответствующим виджетом
-let rootStore = observable({
-    tickStore: new TickStore()
+class RootStore {
+    @persist('object')
+    @observable
+    tickStore = new TickStore();
+
+    //for example
+    @persist('object')
+    @observable
+    tick2Store = new TickStore();
+}
+
+const rootStore = new RootStore();
+
+const hydrate = create({
+    storage: AsyncStorage
 });
+
+hydrate('App', rootStore);
 
 export { rootStore };

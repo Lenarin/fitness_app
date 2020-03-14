@@ -1,11 +1,14 @@
 
-import { decorate, observable, action } from "mobx";
-import { Course, Exercise } from './../Models/Courses'
+import { observable, action } from "mobx";
+import { Course, Exercise } from './Models/Courses';
+import { persist } from "mobx-persist";
 
 class CoursesStore {
+    @persist('list')
     @observable
     Courses = [];
 
+    @persist
     @observable
     Completed = false;
 /*

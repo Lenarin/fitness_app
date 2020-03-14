@@ -1,11 +1,9 @@
-import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, Button, AsyncStorage } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack'
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import HomeActivity from './Activities/HomeActivity';
 import GoalsActivity from './Activities/GoalsActivity';
-import FoodActivity from './Widgets/FoodWidget/Activities/FoodListActivity';
 import CoursesActivity from './Activities/CoursesActivity';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -35,8 +33,6 @@ export default function App() {
         <Tab.Screen name="Home" component={HomeActivity}/>
         <Tab.Screen name="Goals" component={GoalsActivity} />
         <Tab.Screen name="Courses" component={CoursesActivity} />
-        {/*just for test*/}
-        <Tab.Screen name="Foods" component={FoodActivity} />
       </Tab.Navigator>
     </NavigationContainer>
   )

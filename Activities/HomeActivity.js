@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Button, StyleSheet, Text } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import FoodWidget from '../Widgets/FoodWidget/FoodWidget';
 import WaterWidget from '../Widgets/WaterWidget/WaterWidget';
-import { FlatList } from 'react-native-gesture-handler';
 
 const widgets = [
   {
@@ -15,14 +15,14 @@ const widgets = [
   }
 ];
 
-export default function HomeActivity({navigation}) {
+export default function HomeActivity() {
     return (
       <View style={styles.container}>
         <FlatList
           data={widgets}
           renderItem={({item}) => {
-            const Widget = item.widget;
-            
+            // потому что иначе реакт не поймет, что это компонент
+            const Widget = item.widget;    
             return (<Widget />);
           }}
           keyExtractor={item => item.name}
@@ -31,12 +31,12 @@ export default function HomeActivity({navigation}) {
     );
   }
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#e6e6e6',
-      alignItems: 'stretch',
-      justifyContent: 'center',
-      paddingTop: 25
-    },
-  });
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#e6e6e6',
+    alignItems: 'stretch',
+    justifyContent: 'center',
+    paddingTop: 25
+  },
+});

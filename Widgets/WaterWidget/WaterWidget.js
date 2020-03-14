@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, StyleSheet, Text, AsyncStorage } from 'react-native'
+import { StyleSheet, Text, AsyncStorage } from 'react-native'
 import { observer } from 'mobx-react'
 import { Card, Avatar, IconButton, Colors } from 'react-native-paper'
 import WaterStore from './WaterStore';
@@ -28,7 +28,7 @@ const WaterWidget = observer(() => {
             
             <Card.Content style={styles.cardContent}>
                 <Text>
-                    Сегодня Вы выпили {waterStore.current} стаканов воды
+                    Стаканов воды выпито: {waterStore.current}
                 </Text>
             </Card.Content>
 
