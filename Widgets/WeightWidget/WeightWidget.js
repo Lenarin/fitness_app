@@ -28,9 +28,9 @@ const WeightWidget = observer(() => {
             
             <Card.Content style={styles.cardContent}>
                 <Text>
-                    {weightStore.measurementHistory.lastItem 
-                        ? weightStore.measurementHistory.lastItem.Weight 
-                        : "Еще не добавлено ни одного измерения"}
+                    {weightStore.measurementHistory.length == 0 
+                        ? "Еще не добавлено ни одного измерения" 
+                        : "Последнее измерение: " + weightStore.measurementHistory[weightStore.measurementHistory.length - 1].Weight + "кг"}
                 </Text>
             </Card.Content>
 
