@@ -13,6 +13,10 @@ class RootStore {
     @persist('object')
     @observable
     tick2Store = new TickStore();
+
+    @persist('object')
+    @observable
+    coursesStore = new CourseStore();
 }
 
 const rootStore = new RootStore();
