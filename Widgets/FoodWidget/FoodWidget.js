@@ -1,17 +1,21 @@
 import React from 'react'
-import { View, Button, StyleSheet, Text } from 'react-native'
+import { StyleSheet, AsyncStorage } from 'react-native'
 import { observer } from 'mobx-react'
-import { Card, Avatar, Paragraph } from 'react-native-paper'
+import { Card, Button, Avatar, Text, Colors } from 'react-native-paper'
 import FoodStore from './FoodStore';
 import { useNavigation } from '@react-navigation/native';
-import FoodListActivity from './Activities/FoodListActivity';
-import { createStackNavigator } from '@react-navigation/stack';
+import { create } from 'mobx-persist';
 
-const Stack = createStackNavigator();
+const foodStore = new FoodStore();
+
+const hydrate = create({
+    storage: AsyncStorage
+});
+
+hydrate('Food', foodStore);
 
 const FoodWidget = observer(() => {
     const navigator = useNavigation();
-    console.log(navigator);
 
 	return (
         <Card 
@@ -23,12 +27,14 @@ const FoodWidget = observer(() => {
             <Card.Title title="Питание" left={(props) => <Avatar.Icon {...props} icon="food" style={styles.cardIcon}/>} />
             
             <Card.Content>
-                <Paragraph>Потребление калорий за день: {FoodStore.ConsumedTodayCalories}</Paragraph>
+                <Text>
+                    Потребление калорий за день: {foodStore.ConsumedTodayCalories}
+                </Text>
             </Card.Content>
 
-            <Stack.Navigator independent={true}>
-                <Stack.Screen name={"FoodList"} component={FoodListActivity}/>
-            </Stack.Navigator>
+            <Card.Actions style={styles.cardActions}>
+                <Button color={Colors.cyan700} onPress={() => navigator.navigate("FoodList")}>Подробнее</Button>
+            </Card.Actions>
         </Card>
 	);
 });
@@ -47,6 +53,11 @@ const styles = StyleSheet.create({
     },
     cardIcon: {
         backgroundColor: "#52cbbc"
+    },
+    cardActions: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end'
     }
 });
 
