@@ -1,5 +1,6 @@
 
 import { decorate, observable, action } from "mobx";
+import { Course, Exercise } from './../Models/Courses'
 
 class CoursesStore {
     @observable
@@ -7,7 +8,16 @@ class CoursesStore {
 
     @observable
     Completed = false;
-
+/*
+    constructor() {
+        this.Courses.push(new Course(
+            "Универсальный план для спортзала",
+            [
+                new Exercise("Растяжка",)
+            ]
+        ))
+    }
+*/
     @action
     pushCourse (course) {
         this.Courses.push(course);

@@ -6,7 +6,7 @@ export default function GoalsActivity({navigation}) {
 	return (
 		<View style={styles.container}>
 			<Text>
-				<b>PLACEHOLDER</b>
+				PLACEHOLDER
 			</Text>
 		</View>
 	)
