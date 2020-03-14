@@ -11,13 +11,14 @@ const Stack = createStackNavigator();
 
 const FoodWidget = observer(() => {
     const navigator = useNavigation();
+    console.log(navigator);
 
 	return (
         <Card 
             elevation={1} 
             style={styles.card} 
             theme={{ roundness: 12 }}
-            onPress={() => navigator.navigate("Home", { screen: "FoodList" })}
+            onPress={() => navigator.navigate("Food")}
         >
             <Card.Title title="Питание" left={(props) => <Avatar.Icon {...props} icon="food" style={styles.cardIcon}/>} />
             
