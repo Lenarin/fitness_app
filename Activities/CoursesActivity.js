@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center'
 	},
 	exerciseStyle: {
+		paddingTop: 30,
 		padding: 20,
 		backgroundColor: '#fff',
 		flex: 1
