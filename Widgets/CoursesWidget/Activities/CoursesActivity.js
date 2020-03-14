@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Button, StyleSheet, Text } from 'react-native'
-import {tickStore} from './../Stores/Stores'
+import { rootStore } from '../../../Stores/Stores'
 import { observer } from 'mobx-react'
 
 
@@ -10,8 +10,8 @@ const CoursesActivity = observer(({navigation}) => {
 			<Text>
 				{tickStore.current}
 			</Text>
-			<Button title="Incriment" onPress={() => tickStore.inc()} />
-			<Button title="Decrement" onPress={() => tickStore.dec()} />
+			<Button title="Incriment" onPress={() => rootStore.tickStore.inc()} />
+			<Button title="Decrement" onPress={() => rootStore.tickStore.dec()} />
 		</View>
 	)
 })
