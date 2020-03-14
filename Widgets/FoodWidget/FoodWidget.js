@@ -25,8 +25,9 @@ const FoodWidget = observer(() => {
             onPress={() => navigator.navigate("FoodList")}
         >
             <Card.Title title="Питание" left={(props) => <Avatar.Icon {...props} icon="food" style={styles.cardIcon}/>} />
-            
+
             <Card.Content>
+
                 <Text>
                     Потребление калорий за день: {foodStore.ConsumedTodayCalories}
                 </Text>

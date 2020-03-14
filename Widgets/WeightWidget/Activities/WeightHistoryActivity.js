@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react'
 import { View, StyleSheet } from 'react-native'
-import { observer } from 'mobx-react'
-import { Card, Avatar, Colors, Button, Text, List, IconButton } from 'react-native-paper'
+import { observer, Observer } from 'mobx-react'
+import { Card, Avatar, Colors, Button, Headline, List, IconButton } from 'react-native-paper'
 import { weightStore } from '../WeightWidget';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
 
-const WeightHistoryEntry = observer(({ item }) => {
+const WeightHistoryEntry = ({ item }) => {
     return (
         <Card 
             elevation={1} 
@@ -15,19 +15,19 @@ const WeightHistoryEntry = observer(({ item }) => {
 
             <Card.Title 
                 title={item.Weight.toString()}
-                subtitle={item.MeasureDate.toLocaleString()}
+                subtitle={item.MeasureDate.toLocaleString().slice(0, -3)}
                 right={(props) => 
                     <IconButton
                         {...props} 
                         color={Colors.grey800} 
                         icon="close-circle-outline" 
-                        onPress={() => {}}/*weightStore.removeMeasure(item)*/
+                        onPress={() => weightStore.removeMeasure(item)}/*weightStore.removeMeasure(item)*/
                     />
                 }
             />
         </Card>
     );
-});
+};
 
 const WeightHistoryActivity = observer(() => {
     const navigator = useNavigation();
@@ -35,12 +35,20 @@ const WeightHistoryActivity = observer(() => {
 	return (
 		<View style={styles.container}>
             <FlatList
-                style={styles.list}
                 data={weightStore.measurementHistory}
-                renderItem={(item) => <WeightHistoryEntry {...item}/>}
-                keyExtractor={(item, index) => {
-                    return item.MeasureDate.toUTCString()
+                renderItem={(item, index) => {
+                    return <WeightHistoryEntry {...item}/>;
                 }}
+                ListFooterComponent={<View style={styles.listFooter}/>}
+                ListHeaderComponent={
+                <Headline style={styles.listHeader}>
+                    История измерений
+                </Headline>
+                }
+                keyExtractor={(item) => {
+                    return item.Id
+                }}
+                extraData={weightStore.measurementHistory.length}
             />
             
             <View style={styles.buttonWrapper}>
@@ -65,18 +73,26 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'stretch',
         justifyContent: 'center',
-    },
-    list: {
-        
+        paddingTop: 50
     },
     measurementCard: {
-        marginTop: 4,
+        marginVertical: 4,
+        marginHorizontal: 12,
         backgroundColor: "#f7f7f7"
     },
+    listHeader: {
+        marginHorizontal: 12
+    },
+    listFooter: {
+        height: 75
+    },
     buttonWrapper: {
+        position: "absolute",
         flex: 1,
         alignItems: 'center',
-        margin: 8
+        margin: 8,
+        bottom: 0,
+        width: "100%"
     },
     buttonAddMeasurement: {
         backgroundColor: "#f1b514"
