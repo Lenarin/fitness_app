@@ -18,7 +18,7 @@ const FoodWidget = observer(() => {
             elevation={1} 
             style={styles.card} 
             theme={{ roundness: 12 }}
-            onPress={() => navigator.navigate("Food")}
+            onPress={() => navigator.navigate("FoodList")}
         >
             <Card.Title title="Питание" left={(props) => <Avatar.Icon {...props} icon="food" style={styles.cardIcon}/>} />
             

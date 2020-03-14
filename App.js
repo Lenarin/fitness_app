@@ -13,9 +13,10 @@ const Tab = createMaterialBottomTabNavigator();
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator shifting={true}
+      <Tab.Navigator 
+        shifting={true}
         screenOptions = {({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
             if (route.name === "Home") {
