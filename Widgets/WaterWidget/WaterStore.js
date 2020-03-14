@@ -7,16 +7,21 @@ class WaterStore {
     current = 0;
 
     @action
-    inc() {
+    increment() {
         this.current++;
     }
 
     @action
-    dec() {
+    decrement() {
         if (this.current === 0)
             return;
 
         this.current--;
+    }
+
+    @action
+    reset() {
+        this.current = 0;
     }
 }
 

@@ -13,16 +13,21 @@ const widgets = [
   {
     name: "Food",
     widget: FoodWidget,
-    activity: FoodListActivity,
+    activities: [
+      {
+        name: "FoodList",
+        activity: FoodListActivity
+      }
+    ]
   },
   {
     name: "Water",
     widget: WaterWidget,
-    activity: null
+    activities: []
   }
 ];
 
-function Test() {
+function WidgetList() {
     return (
       <View style={styles.container}>
           <FlatList
@@ -42,10 +47,9 @@ function Test() {
 
 export default function HomeActivity() {
   return (
-    <HomeStack.Navigator>
-      <HomeStack.Screen name="Home" component={Test} />
-      {widgets.map(elem => elem.activity ? <HomeStack.Screen name={elem.name} component={elem.activity} /> : null)}
-      {/*<HomeStack.Screen name="Food List" component={FoodListActivity} />*/}
+    <HomeStack.Navigator headerMode="none">
+      <HomeStack.Screen name="Home" component={WidgetList} />
+      {widgets.map(elem => elem.activities.map(act => (<HomeStack.Screen name={act.name} component={act.activity} />))).flat()}
     </HomeStack.Navigator>
   )
 }

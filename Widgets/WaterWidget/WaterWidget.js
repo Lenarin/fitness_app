@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, AsyncStorage } from 'react-native'
 import { observer } from 'mobx-react'
-import { Card, Avatar, IconButton, Colors } from 'react-native-paper'
+import { Card, Avatar, IconButton, Colors, Button } from 'react-native-paper'
 import WaterStore from './WaterStore';
 import { useNavigation } from '@react-navigation/native';
 import { create } from 'mobx-persist';
@@ -22,7 +22,6 @@ const WaterWidget = observer(() => {
             elevation={1} 
             style={styles.card} 
             theme={{ roundness: 12 }}
-            onPress={() => navigator.navigate("FoodList")}
         >
             <Card.Title title="Вода" left={(props) => <Avatar.Icon {...props} icon="water" style={styles.cardIcon}/>} />
             
@@ -33,8 +32,9 @@ const WaterWidget = observer(() => {
             </Card.Content>
 
             <Card.Actions style={styles.cardActions}>
-                <IconButton color={Colors.grey800} icon="minus-circle-outline" onPress={() => waterStore.dec()} />
-                <IconButton color={Colors.grey800} icon="plus-circle-outline" onPress={() => waterStore.inc()} />
+                <Button color={Colors.cyan700} onPress={() => waterStore.reset()}>Сбросить</Button>
+                <IconButton color={Colors.grey800} icon="minus-circle-outline" onPress={() => waterStore.decrement()} />
+                <IconButton color={Colors.grey800} icon="plus-circle-outline" onPress={() => waterStore.increment()} />
             </Card.Actions>
         </Card>
 	);
