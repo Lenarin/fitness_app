@@ -6,13 +6,14 @@ import HomeActivity from './Activities/HomeActivity';
 import GoalsActivity from './Activities/GoalsActivity';
 import CoursesActivity from './Activities/CoursesActivity';
 import { Ionicons } from '@expo/vector-icons';
+import { Colors } from 'react-native-paper';
 
 const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Tab.Navigator 
+      <Tab.Navigator shifting={true}
         screenOptions = {({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
@@ -24,15 +25,15 @@ export default function App() {
               iconName = "md-trophy";
             } else
             if (route.name === "Courses") {
-              iconName = "md-cube";
+              iconName = "md-medal";
             }
 
             return <Ionicons name={iconName} color={color} size={24}></Ionicons>
           }
         })}>
-        <Tab.Screen name="Home" component={HomeActivity}/>
-        <Tab.Screen name="Goals" component={GoalsActivity} />
-        <Tab.Screen name="Courses" component={CoursesActivity} />
+        <Tab.Screen name="Home" options={{ title: "Главная", tabBarColor: Colors.cyan700 }} component={HomeActivity}/>
+        <Tab.Screen name="Goals" options={{ title: "Цели", tabBarColor: Colors.amber700 }} component={GoalsActivity} />
+        <Tab.Screen name="Courses" options={{ title: "Тренировки", tabBarColor: Colors.greenA700 }} component={CoursesActivity} />
       </Tab.Navigator>
     </NavigationContainer>
   )
