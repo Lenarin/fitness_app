@@ -3,7 +3,7 @@ import { StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import HomeActivity from './Activities/HomeActivity';
-import GoalsActivity from './Activities/GoalsActivity';
+import CalendarActivity from './Activities/CalendarActivity';
 import CoursesActivity from './Activities/CoursesActivity';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors } from 'react-native-paper';
@@ -33,7 +33,7 @@ export default function App() {
           }
         })}>
         <Tab.Screen name="Home" options={{ title: "Главная", tabBarColor: Colors.cyan700 }} component={HomeActivity}/>
-        <Tab.Screen name="Goals" options={{ title: "Цели", tabBarColor: Colors.amber700 }} component={GoalsActivity} />
+        <Tab.Screen name="Goals" options={{ title: "Цели", tabBarColor: Colors.amber700 }} component={CalendarActivity} />
         <Tab.Screen name="Courses" options={{ title: "Тренировки", tabBarColor: Colors.greenA700 }} component={CoursesActivity} />
       </Tab.Navigator>
     </NavigationContainer>

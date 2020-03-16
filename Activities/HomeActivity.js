@@ -1,10 +1,15 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
+import { createStackNavigator } from '@react-navigation/stack';
+
+import { WeightWidget } from '../Widgets/WeightWidget/WeightWidget';
 import FoodWidget from '../Widgets/FoodWidget/FoodWidget';
 import WaterWidget from '../Widgets/WaterWidget/WaterWidget';
-import { createStackNavigator } from '@react-navigation/stack';
-import FoodListActivity from '../Widgets/FoodWidget/Activities/FoodListActivity'
+
+import FoodListActivity from '../Widgets/FoodWidget/Activities/FoodListActivity';
+import WeightHistoryActivity from '../Widgets/WeightWidget/Activities/WeightHistoryActivity';
+import AddWeightMeasureActivity from '../Widgets/WeightWidget/Activities/AddWeightMeasureActivity';
 
 const HomeStack = createStackNavigator();
 
@@ -24,6 +29,20 @@ const widgets = [
     name: "Water",
     widget: WaterWidget,
     activities: []
+  },
+  {
+    name: "Weight",
+    widget: WeightWidget,
+    activities: [
+      {
+        name: "WeightHistory",
+        activity: WeightHistoryActivity
+      },
+      {
+        name: "AddWeightMeasure",
+        activity: AddWeightMeasureActivity
+      }
+    ]
   }
 ];
 
@@ -49,7 +68,7 @@ export default function HomeActivity() {
   return (
     <HomeStack.Navigator headerMode="none">
       <HomeStack.Screen name="Home" component={WidgetList} />
-      {widgets.map(elem => elem.activities.map(act => (<HomeStack.Screen name={act.name} component={act.activity} />))).flat()}
+      {widgets.map(elem => elem.activities.map(act => (<HomeStack.Screen key={act.name} name={act.name} component={act.activity} />))).flat()}
     </HomeStack.Navigator>
   )
 }

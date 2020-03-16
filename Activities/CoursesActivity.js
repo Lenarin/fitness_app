@@ -84,7 +84,7 @@ const Home = observer(({navigation}) => {
 			<FlatList 
 				data={rootStore.coursesStore.Courses}
 				renderItem={({item}) => <CourseCard course={item} />}
-				keyExtractor={item => item.Title}
+				keyExtractor={(item, index )=> index+''}
 			/>
 		</View>
 	)
