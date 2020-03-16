@@ -1,10 +1,14 @@
 import { observable, action } from 'mobx';
 
 class Course {
-    Label = "";
-    Description = "";
-    Image = "";
+    Label = '';
+
+    Description = '';
+
+    Image = '';
+
     Exercises = [];
+
     Completed = false;
 
     constructor(label, image, description, exercises) {
@@ -20,11 +24,16 @@ class Course {
 }
 
 class Exercise {
-    Image = "";
+    Image = '';
+
     Title = '';
+
     Text = '';
+
     Completed = false;
+
     TimeToDo = '';
+
     Repeats = 10;
 
     constructor(title, image, text, timeToDo, repeats) {
@@ -36,4 +45,4 @@ class Exercise {
     }
 }
 
-export {Course, Exercise}
+export { Course, Exercise };

@@ -1,5 +1,5 @@
-import { decorate, observable, action } from "mobx";
-import { persist } from "mobx-persist";
+import { decorate, observable, action } from 'mobx';
+import { persist } from 'mobx-persist';
 
 class TickStore {
     @persist

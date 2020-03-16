@@ -9,7 +9,7 @@ class RootStore {
     @observable
     tickStore = new TickStore();
 
-    //for example
+    //  for example
     @persist('object')
     @observable
     tick2Store = new TickStore();

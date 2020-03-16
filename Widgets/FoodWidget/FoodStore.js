@@ -1,5 +1,5 @@
-import { observable, action, computed } from "mobx";
-import { persist } from "mobx-persist";
+import { observable, action, computed } from 'mobx';
+import { persist } from 'mobx-persist';
 
 class FoodStore {
     // приемы пищи
@@ -8,11 +8,11 @@ class FoodStore {
     Meals = [];
 
     @action
-    addMeal (meal) {
+    addMeal(meal) {
         this.Meals.push(meal);
     }
 
-    //TODO: reimplement
+    // TODO: reimplement
     /*
     @computed
     get ConsumedTodayCalories() {
@@ -23,7 +23,7 @@ class FoodStore {
             .reduce((total, calories) => total + calories, 0);
 
         return res;
-    }*/
+    } */
 /*
     // количество калорий по дням
     @computed
@@ -41,7 +41,7 @@ class FoodStore {
         });
 
         return days;
-    }*/
+    } */
 }
 
 export default FoodStore;

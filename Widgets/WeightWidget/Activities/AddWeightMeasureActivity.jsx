@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useCallback } from 'react'
-import { View, StyleSheet } from 'react-native'
-import { observer } from 'mobx-react'
-import { TextInput, Colors, Button, Text } from 'react-native-paper'
-import { weightStore } from '../WeightWidget';
+import React, { useEffect, useState, useCallback } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { observer } from 'mobx-react';
+import {
+    TextInput, Colors, Button, Text,
+} from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
+import { weightStore } from '../WeightWidget';
 import Measure from '../Models/Measure';
 
 const AddWeightMeasureActivity = observer(() => {
@@ -24,7 +26,7 @@ const AddWeightMeasureActivity = observer(() => {
         navigator.goBack();
     });
 
-    const handleWeightChange = useCallback(text => {
+    const handleWeightChange = useCallback((text) => {
         if (isValidWeight(text)) {
             setWeight(text);
         }
@@ -34,7 +36,7 @@ const AddWeightMeasureActivity = observer(() => {
         if (text === '') {
             return true;
         }
-      
+
         const parsedNum = Number.parseFloat(text);
         if (!isNaN(parsedNum) && parsedNum > 0 && parsedNum < 500) {
             return true;
@@ -46,20 +48,20 @@ const AddWeightMeasureActivity = observer(() => {
     return (
         <View style={styles.container}>
             <TextInput
-                label={"Введите Ваш вес"}
-                mode={"outlined"}
+                label="Введите Ваш вес"
+                mode="outlined"
                 value={weight}
                 onChangeText={handleWeightChange}
-                keyboardType={"numeric"}
+                keyboardType="numeric"
                 theme={{
                     colors: {
                         primary: Colors.cyan700,
-                    }
+                    },
                 }}
             />
 
-            <Button    
-                mode={"contained"}
+            <Button
+                mode="contained"
                 theme={{ roundness: 10 }}
                 onPress={hangleWeightSubmit}
                 style={styles.buttonAddMeasurement}
@@ -68,22 +70,22 @@ const AddWeightMeasureActivity = observer(() => {
                 Добавить измерение
             </Button>
         </View>
-    )
+    );
 });
 
 const styles = StyleSheet.create({
     container: {
-	      marginHorizontal: 50,
-        marginTop: 50
+        marginHorizontal: 50,
+        marginTop: 50,
     },
     buttonAddMeasurement: {
         marginTop: 20,
-        backgroundColor: "#ffa726"
+        backgroundColor: '#ffa726',
     },
     buttonContent: {
         paddingTop: 8,
         paddingBottom: 8,
-    }
+    },
 });
 
 export default AddWeightMeasureActivity;

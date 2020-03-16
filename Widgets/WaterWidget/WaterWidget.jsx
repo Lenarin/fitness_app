@@ -1,15 +1,17 @@
-import React from 'react'
-import { StyleSheet, AsyncStorage } from 'react-native'
-import { observer } from 'mobx-react'
-import { Card, Avatar, IconButton, Colors, Button, Subheading } from 'react-native-paper'
-import WaterStore from './WaterStore';
+import React from 'react';
+import { StyleSheet, AsyncStorage } from 'react-native';
+import { observer } from 'mobx-react';
+import {
+    Card, Avatar, IconButton, Colors, Button, Subheading,
+} from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { create } from 'mobx-persist';
+import WaterStore from './WaterStore';
 
 const waterStore = new WaterStore();
 
 const hydrate = create({
-    storage: AsyncStorage
+    storage: AsyncStorage,
 });
 
 hydrate('Water', waterStore);
@@ -17,17 +19,19 @@ hydrate('Water', waterStore);
 const WaterWidget = observer(() => {
     const navigator = useNavigation();
 
-	return (
-        <Card 
-            elevation={1} 
-            style={styles.card} 
+    return (
+        <Card
+            elevation={1}
+            style={styles.card}
             theme={{ roundness: 12 }}
         >
-            <Card.Title title="Вода" left={(props) => <Avatar.Icon {...props} icon="water" style={styles.cardIcon}/>} />
-            
+            <Card.Title title="Вода" left={(props) => <Avatar.Icon {...props} icon="water" style={styles.cardIcon} />} />
+
             <Card.Content style={styles.cardContent}>
                 <Subheading>
-                    Стаканов воды выпито: {waterStore.current}
+                    Стаканов воды выпито:
+                    {' '}
+                    {waterStore.current}
                 </Subheading>
             </Card.Content>
 
@@ -37,34 +41,34 @@ const WaterWidget = observer(() => {
                 <IconButton color={Colors.grey800} icon="plus-circle-outline" onPress={() => waterStore.increment()} />
             </Card.Actions>
         </Card>
-	);
+    );
 });
 
 const styles = StyleSheet.create({
     container: {
-	  flex: 1,
-	  flexDirection: "column",
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     cardIcon: {
-        backgroundColor: "#4bd1df"
+        backgroundColor: '#4bd1df',
     },
     card: {
         margin: 10,
-        backgroundColor: "#fafafa"
+        backgroundColor: '#fafafa',
     },
     cardContent: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     cardActions: {
         flex: 1,
         flexDirection: 'row',
-        justifyContent: 'flex-end'
-    }
+        justifyContent: 'flex-end',
+    },
 });
 
 export default WaterWidget;
