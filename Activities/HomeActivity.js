@@ -10,9 +10,9 @@ import WaterWidget from '../Widgets/WaterWidget/WaterWidget';
 import MealsListActivity from '../Widgets/FoodWidget/Activities/MealsListActivity';
 import WeightHistoryActivity from '../Widgets/WeightWidget/Activities/WeightHistoryActivity';
 import AddWeightMeasureActivity from '../Widgets/WeightWidget/Activities/AddWeightMeasureActivity';
+import AddMealActivity from '../Widgets/WeightWidget/Activities/AddWeightMeasureActivity'; 
 
 const HomeStack = createStackNavigator();
-
 
 const widgets = [
   {
