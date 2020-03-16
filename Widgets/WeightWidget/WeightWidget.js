@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, AsyncStorage } from 'react-native'
+import { StyleSheet, AsyncStorage, Dimensions } from 'react-native'
 import { observer } from 'mobx-react'
 import { Card, Avatar, Colors, Button, Text } from 'react-native-paper'
 import WeightStore from './WeightStore';
 import { useNavigation } from '@react-navigation/native';
 import { create } from 'mobx-persist';
-import { LineChart } from "react-native-chart-kit";
-import { Dimensions } from "react-native";
-import { toJS } from 'mobx';
+import { LineChart } from 'react-native-chart-kit';
 
 const weightStore = new WeightStore();
 
@@ -23,7 +21,10 @@ const WeightWidget = observer(() => {
     const navigator = useNavigation();
 
     const data = {
-        labels: weightStore.measurementHistory.map(item => (new Date(item.MeasureDate)).toLocaleDateString().slice(0, -5)),
+        labels: weightStore.measurementHistory.map(item => {
+            const d = new Date(item.MeasureDate);
+            return d.getDay() + "/" + d.getMonth() + 1;
+        }),
         datasets: [
             {
                 data: weightStore.measurementHistory.slice(-displayLastNum).map(item => item.Weight)
@@ -31,20 +32,20 @@ const WeightWidget = observer(() => {
         ]
     };
 
-    const chartConfig = {
+    const weightChartConfig = {
         backgroundColor: "#e26a00",
         backgroundGradientFrom: "#fb8c00",
         backgroundGradientTo: "#ffa726",
-        decimalPlaces: 0, // optional, defaults to 2dp
+        decimalPlaces: 1,
         color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
         labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
         style: {
-          borderRadius: 16
+            borderRadius: 16
         },
         propsForDots: {
-          r: "6",
-          strokeWidth: "2",
-          stroke: "#ffa726"
+            r: "6",
+            strokeWidth: "2",
+            stroke: "#ffa726"
         }
     };
       
@@ -83,7 +84,7 @@ const WeightWidget = observer(() => {
                         data={data}
                         width={screenWidth - 50}
                         height={220}
-                        chartConfig={chartConfig}
+                        chartConfig={weightChartConfig}
                         bezier
                         style={{
                             marginVertical: 8,

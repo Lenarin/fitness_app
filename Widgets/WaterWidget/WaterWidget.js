@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, AsyncStorage } from 'react-native'
 import { observer } from 'mobx-react'
-import { Card, Avatar, IconButton, Colors, Button, Text } from 'react-native-paper'
+import { Card, Avatar, IconButton, Colors, Button, Subheading } from 'react-native-paper'
 import WaterStore from './WaterStore';
 import { useNavigation } from '@react-navigation/native';
 import { create } from 'mobx-persist';
@@ -26,9 +26,9 @@ const WaterWidget = observer(() => {
             <Card.Title title="Вода" left={(props) => <Avatar.Icon {...props} icon="water" style={styles.cardIcon}/>} />
             
             <Card.Content style={styles.cardContent}>
-                <Text>
+                <Subheading>
                     Стаканов воды выпито: {waterStore.current}
-                </Text>
+                </Subheading>
             </Card.Content>
 
             <Card.Actions style={styles.cardActions}>

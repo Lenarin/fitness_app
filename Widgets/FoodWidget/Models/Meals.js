@@ -6,7 +6,9 @@ class Meal {
 
 class Product {
     Name = '';
-    Amount = 0;
+    Proteins = 0; //Б
+    Fats = 0; //Ж
+    Carbohydrates = 0; //У
     Calories = 0;
 }
 
