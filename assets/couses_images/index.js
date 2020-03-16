@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable global-require */
 export const Course_1_Image_1 = require('./couse_1_ex_1.png');
 export const Course_1_Image_2 = require('./couse_1_ex_2.png');
 export const Course_1_Image_3 = require('./couse_1_ex_3.png');

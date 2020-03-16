@@ -1,8 +1,8 @@
-import CourseStore from './CoursesStore';
-import TickStore from './TickStore';
 import { observable } from 'mobx';
 import { AsyncStorage } from 'react-native';
 import { create, persist } from 'mobx-persist';
+import CourseStore from './CoursesStore';
+import TickStore from './TickStore';
 
 class RootStore {
     @persist('object')
@@ -22,9 +22,9 @@ class RootStore {
 const rootStore = new RootStore();
 
 const hydrate = create({
-    storage: AsyncStorage
+    storage: AsyncStorage,
 });
 
 hydrate('App', rootStore);
 
-export { rootStore };
+export default RootStore;

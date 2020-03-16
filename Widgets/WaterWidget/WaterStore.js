@@ -1,4 +1,4 @@
-import { decorate, observable, action } from 'mobx';
+import { observable, action } from 'mobx';
 import { persist } from 'mobx-persist';
 
 class WaterStore {
@@ -8,14 +8,14 @@ class WaterStore {
 
     @action
     increment() {
-        this.current++;
+        this.current += 1;
     }
 
     @action
     decrement() {
         if (this.current === 0) { return; }
 
-        this.current--;
+        this.current -= 1;
     }
 
     @action

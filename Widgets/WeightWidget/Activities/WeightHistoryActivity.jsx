@@ -1,67 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { observer, Observer } from 'mobx-react';
+import { observer } from 'mobx-react';
 import {
-    Card, Avatar, Colors, Button, Headline, List, IconButton,
+    Card, Colors, Button, Headline, IconButton,
 } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
 import { weightStore } from '../WeightWidget';
-
-const WeightHistoryEntry = ({ item }) => (
-    <Card
-        elevation={1}
-        theme={{ roundness: 12 }}
-        style={styles.measurementCard}
-    >
-
-        <Card.Title
-            title={item.Weight.toString()}
-            subtitle={(new Date(item.MeasureDate)).toLocaleString().slice(0, -3)}
-            right={(props) => (
-                <IconButton
-                    {...props}
-                    color={Colors.grey800}
-                    icon="close-circle-outline"
-                    onPress={() => weightStore.removeMeasure(item)}
-                />
-            )}
-        />
-    </Card>
-);
-
-const WeightHistoryActivity = observer(() => {
-    const navigator = useNavigation();
-
-    return (
-        <View style={styles.container}>
-            <FlatList
-                data={weightStore.measurementHistory}
-                renderItem={(item, index) => <WeightHistoryEntry {...item} />}
-                ListFooterComponent={<View style={styles.listFooter} />}
-                ListHeaderComponent={(
-                    <Headline style={styles.listHeader}>
-                        История измерений
-                    </Headline>
-                )}
-                keyExtractor={(item) => item.Id}
-                extraData={weightStore.measurementHistory.length}
-            />
-
-            <View style={styles.buttonWrapper}>
-                <Button
-                    mode="contained"
-                    theme={{ roundness: 50 }}
-                    onPress={() => navigator.navigate('AddWeightMeasure')}
-                    style={styles.buttonAddMeasurement}
-                    contentStyle={styles.buttonContent}
-                >
-                    Добавить измерение
-                </Button>
-            </View>
-        </View>
-    );
-});
 
 const styles = StyleSheet.create({
     container: {
@@ -98,6 +43,61 @@ const styles = StyleSheet.create({
         paddingTop: 8,
         paddingBottom: 8,
     },
+});
+
+const WeightHistoryEntry = ({ item }) => (
+    <Card
+        elevation={1}
+        theme={{ roundness: 12 }}
+        style={styles.measurementCard}
+    >
+
+        <Card.Title
+            title={item.Weight.toString()}
+            subtitle={(new Date(item.MeasureDate)).toLocaleString().slice(0, -3)}
+            right={(props) => (
+                <IconButton
+                    {...props}
+                    color={Colors.grey800}
+                    icon="close-circle-outline"
+                    onPress={() => weightStore.removeMeasure(item)}
+                />
+            )}
+        />
+    </Card>
+);
+
+const WeightHistoryActivity = observer(() => {
+    const navigator = useNavigation();
+
+    return (
+        <View style={styles.container}>
+            <FlatList
+                data={weightStore.measurementHistory}
+                renderItem={(item) => <WeightHistoryEntry {...item} />}
+                ListFooterComponent={<View style={styles.listFooter} />}
+                ListHeaderComponent={(
+                    <Headline style={styles.listHeader}>
+                        История измерений
+                    </Headline>
+                )}
+                keyExtractor={(item) => item.Id}
+                extraData={weightStore.measurementHistory.length}
+            />
+
+            <View style={styles.buttonWrapper}>
+                <Button
+                    mode="contained"
+                    theme={{ roundness: 50 }}
+                    onPress={() => navigator.navigate('AddWeightMeasure')}
+                    style={styles.buttonAddMeasurement}
+                    contentStyle={styles.buttonContent}
+                >
+                    Добавить измерение
+                </Button>
+            </View>
+        </View>
+    );
 });
 
 export default WeightHistoryActivity;

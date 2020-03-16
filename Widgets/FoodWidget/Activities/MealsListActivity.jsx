@@ -1,9 +1,19 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {
-    View, Button, StyleSheet, Text,
+    View, StyleSheet, Text,
 } from 'react-native';
 import { observer } from 'mobx-react';
-import { ScrollView } from 'react-native-gesture-handler';
+import { Card } from 'react-native-paper';
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+});
 
 /*
 <ScrollView
@@ -13,27 +23,17 @@ import { ScrollView } from 'react-native-gesture-handler';
             />
 */
 
-const MealsListActivity = observer(({ navigation }) => (
+const MealsListActivity = observer(() => (
     <View style={styles.container}>
         {/* <Button title="Add mealtime" onPress={() => navigation.navigate("NewMealtime")}/> */}
         <Text>ASDJASKDASDKASJ</Text>
     </View>
 ));
 
-const Meal = (props) => (
+const Meal = ({ mealTime }) => (
     <Card>
-        <Text>{(new Date(props.MealTime)).toDateString()}</Text>
+        <Text>{(new Date(mealTime)).toDateString()}</Text>
     </Card>
 );
-
-const styles = StyleSheet.create({
-    container: {
-	  flex: 1,
-	  flexDirection: 'column',
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-});
 
 export default MealsListActivity;

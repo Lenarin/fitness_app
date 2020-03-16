@@ -11,6 +11,16 @@ import MealsListActivity from '../Widgets/FoodWidget/Activities/MealsListActivit
 import WeightHistoryActivity from '../Widgets/WeightWidget/Activities/WeightHistoryActivity';
 import AddWeightMeasureActivity from '../Widgets/WeightWidget/Activities/AddWeightMeasureActivity';
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#e6e6e6',
+        alignItems: 'stretch',
+        justifyContent: 'center',
+        paddingTop: 25,
+    },
+});
+
 const HomeStack = createStackNavigator();
 
 
@@ -76,13 +86,3 @@ export default function HomeActivity() {
         </HomeStack.Navigator>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#e6e6e6',
-        alignItems: 'stretch',
-        justifyContent: 'center',
-        paddingTop: 25,
-    },
-});

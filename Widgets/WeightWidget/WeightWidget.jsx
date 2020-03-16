@@ -9,6 +9,33 @@ import { create } from 'mobx-persist';
 import { LineChart } from 'react-native-chart-kit';
 import WeightStore from './WeightStore';
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    cardIcon: {
+        backgroundColor: '#ffa726',
+    },
+    card: {
+        margin: 10,
+        backgroundColor: '#fafafa',
+    },
+    cardContent: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    cardActions: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+    },
+});
+
 const weightStore = new WeightStore();
 
 const hydrate = create({
@@ -101,33 +128,6 @@ const WeightWidget = observer(() => {
             </Card.Actions>
         </Card>
     );
-});
-
-const styles = StyleSheet.create({
-    container: {
-	  flex: 1,
-	  flexDirection: 'column',
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    cardIcon: {
-        backgroundColor: '#ffa726',
-    },
-    card: {
-        margin: 10,
-        backgroundColor: '#fafafa',
-    },
-    cardContent: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    },
-    cardActions: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-    },
 });
 
 export { WeightWidget, weightStore };

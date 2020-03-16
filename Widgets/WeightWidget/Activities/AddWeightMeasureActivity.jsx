@@ -1,12 +1,27 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import {
-    TextInput, Colors, Button, Text,
+    TextInput, Colors, Button,
 } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { weightStore } from '../WeightWidget';
 import Measure from '../Models/Measure';
+
+const styles = StyleSheet.create({
+    container: {
+        marginHorizontal: 50,
+        marginTop: 50,
+    },
+    buttonAddMeasurement: {
+        marginTop: 20,
+        backgroundColor: '#ffa726',
+    },
+    buttonContent: {
+        paddingTop: 8,
+        paddingBottom: 8,
+    },
+});
 
 const AddWeightMeasureActivity = observer(() => {
     const navigator = useNavigation();
@@ -26,24 +41,25 @@ const AddWeightMeasureActivity = observer(() => {
         navigator.goBack();
     });
 
-    const handleWeightChange = useCallback((text) => {
-        if (isValidWeight(text)) {
-            setWeight(text);
-        }
-    });
-
     const isValidWeight = (text) => {
         if (text === '') {
             return true;
         }
 
         const parsedNum = Number.parseFloat(text);
-        if (!isNaN(parsedNum) && parsedNum > 0 && parsedNum < 500) {
+        if (!Number.isNaN(parsedNum) && parsedNum > 0 && parsedNum < 500) {
             return true;
         }
 
         return false;
     };
+
+    const handleWeightChange = useCallback((text) => {
+        if (isValidWeight(text)) {
+            setWeight(text);
+        }
+    });
+
 
     return (
         <View style={styles.container}>
@@ -71,21 +87,6 @@ const AddWeightMeasureActivity = observer(() => {
             </Button>
         </View>
     );
-});
-
-const styles = StyleSheet.create({
-    container: {
-        marginHorizontal: 50,
-        marginTop: 50,
-    },
-    buttonAddMeasurement: {
-        marginTop: 20,
-        backgroundColor: '#ffa726',
-    },
-    buttonContent: {
-        paddingTop: 8,
-        paddingBottom: 8,
-    },
 });
 
 export default AddWeightMeasureActivity;

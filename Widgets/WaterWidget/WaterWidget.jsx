@@ -4,45 +4,8 @@ import { observer } from 'mobx-react';
 import {
     Card, Avatar, IconButton, Colors, Button, Subheading,
 } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
 import { create } from 'mobx-persist';
 import WaterStore from './WaterStore';
-
-const waterStore = new WaterStore();
-
-const hydrate = create({
-    storage: AsyncStorage,
-});
-
-hydrate('Water', waterStore);
-
-const WaterWidget = observer(() => {
-    const navigator = useNavigation();
-
-    return (
-        <Card
-            elevation={1}
-            style={styles.card}
-            theme={{ roundness: 12 }}
-        >
-            <Card.Title title="Вода" left={(props) => <Avatar.Icon {...props} icon="water" style={styles.cardIcon} />} />
-
-            <Card.Content style={styles.cardContent}>
-                <Subheading>
-                    Стаканов воды выпито:
-                    {' '}
-                    {waterStore.current}
-                </Subheading>
-            </Card.Content>
-
-            <Card.Actions style={styles.cardActions}>
-                <Button color={Colors.cyan700} onPress={() => waterStore.reset()}>Сбросить</Button>
-                <IconButton color={Colors.grey800} icon="minus-circle-outline" onPress={() => waterStore.decrement()} />
-                <IconButton color={Colors.grey800} icon="plus-circle-outline" onPress={() => waterStore.increment()} />
-            </Card.Actions>
-        </Card>
-    );
-});
 
 const styles = StyleSheet.create({
     container: {
@@ -69,6 +32,40 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-end',
     },
+});
+
+const waterStore = new WaterStore();
+
+const hydrate = create({
+    storage: AsyncStorage,
+});
+
+hydrate('Water', waterStore);
+
+const WaterWidget = observer(() => {
+    return (
+        <Card
+            elevation={1}
+            style={styles.card}
+            theme={{ roundness: 12 }}
+        >
+            <Card.Title title="Вода" left={(props) => <Avatar.Icon {...props} icon="water" style={styles.cardIcon} />} />
+
+            <Card.Content style={styles.cardContent}>
+                <Subheading>
+                    Стаканов воды выпито:
+                    {' '}
+                    {waterStore.current}
+                </Subheading>
+            </Card.Content>
+
+            <Card.Actions style={styles.cardActions}>
+                <Button color={Colors.cyan700} onPress={() => waterStore.reset()}>Сбросить</Button>
+                <IconButton color={Colors.grey800} icon="minus-circle-outline" onPress={() => waterStore.decrement()} />
+                <IconButton color={Colors.grey800} icon="plus-circle-outline" onPress={() => waterStore.increment()} />
+            </Card.Actions>
+        </Card>
+    );
 });
 
 export default WaterWidget;

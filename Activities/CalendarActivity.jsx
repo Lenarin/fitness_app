@@ -4,6 +4,29 @@ import { ContributionGraph } from 'react-native-chart-kit';
 import { observer } from 'mobx-react';
 import { Colors } from 'react-native-paper';
 
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: '#e6e6e6',
+        alignItems: 'stretch',
+        justifyContent: 'flex-start',
+        paddingTop: 25,
+    },
+    card: {
+        margin: 10,
+        backgroundColor: '#fafafa',
+    },
+    cardIcon: {
+        backgroundColor: '#52cbbc',
+    },
+    cardActions: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+    },
+});
+
 
 const CalendarCard = observer(() => {
     const commitsData = [
@@ -69,26 +92,3 @@ export default function CalendarActivity() {
         </View>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        backgroundColor: '#e6e6e6',
-        alignItems: 'stretch',
-        justifyContent: 'flex-start',
-        paddingTop: 25,
-    },
-    card: {
-        margin: 10,
-        backgroundColor: '#fafafa',
-    },
-    cardIcon: {
-        backgroundColor: '#52cbbc',
-    },
-    cardActions: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-    },
-});

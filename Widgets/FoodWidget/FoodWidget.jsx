@@ -1,15 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import {
-    StyleSheet, AsyncStorage, Dimensions, View,
+    StyleSheet, AsyncStorage, Dimensions,
 } from 'react-native';
 import { observer } from 'mobx-react';
 import {
-    Card, Button, Avatar, Text, Colors, Subheading,
+    Card, Button, Avatar, Colors, Subheading,
 } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { create } from 'mobx-persist';
 import { ProgressChart } from 'react-native-chart-kit';
 import FoodStore from './FoodStore';
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    card: {
+        margin: 10,
+        backgroundColor: '#fafafa',
+    },
+    cardIcon: {
+        backgroundColor: '#52cbbc',
+    },
+    cardActions: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'flex-end',
+    },
+});
 
 
 const foodStore = new FoodStore();
@@ -96,28 +118,6 @@ const FoodWidget = observer(() => {
             </Card.Actions>
         </Card>
     );
-});
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        flexDirection: 'column',
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    card: {
-        margin: 10,
-        backgroundColor: '#fafafa',
-    },
-    cardIcon: {
-        backgroundColor: '#52cbbc',
-    },
-    cardActions: {
-        flex: 1,
-        flexDirection: 'row',
-        justifyContent: 'flex-end',
-    },
 });
 
 export default FoodWidget;

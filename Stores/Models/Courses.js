@@ -1,5 +1,3 @@
-import { observable, action } from 'mobx';
-
 class Course {
     Label = '';
 
@@ -23,26 +21,4 @@ class Course {
     }
 }
 
-class Exercise {
-    Image = '';
-
-    Title = '';
-
-    Text = '';
-
-    Completed = false;
-
-    TimeToDo = '';
-
-    Repeats = 10;
-
-    constructor(title, image, text, timeToDo, repeats) {
-        this.Image = image;
-        this.Title = title;
-        this.Text = text;
-        this.TimeToDo = timeToDo;
-        this.Repeats = repeats;
-    }
-}
-
-export { Course, Exercise };
+export default Course;

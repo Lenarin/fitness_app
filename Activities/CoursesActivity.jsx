@@ -6,11 +6,35 @@ import { observer } from 'mobx-react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { FlatList } from 'react-native-gesture-handler';
 import {
-    Card, Avatar, Paragraph, Title, Button, Colors,
+    Card, Paragraph, Title, Button, Colors,
 } from 'react-native-paper';
-import { observable } from 'mobx';
 import { useNavigation } from '@react-navigation/native';
-import { rootStore } from '../Stores/Stores';
+import RootStore from '../Stores/Stores';
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#e6e6e6',
+        alignItems: 'stretch',
+        justifyContent: 'center',
+        paddingTop: 25,
+    },
+    card: {
+        margin: 10,
+        backgroundColor: '#fafafa',
+    },
+    titleText: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+    exerciseStyle: {
+        paddingTop: 30,
+        padding: 20,
+        backgroundColor: '#fff',
+        flex: 1,
+    },
+});
 
 const CoursesStack = createStackNavigator();
 
@@ -50,7 +74,7 @@ const Exercise = observer(({ route }) => {
                             setCurrentIndex(currentIndex + 1);
                             setCurrentExercise(exercisesList[currentIndex]);
                         } else {
-                            route.params.course.completed = true;
+                            route.params.course.setCompleted(true);
                             navigator.goBack();
                         }
                     }}
@@ -92,7 +116,7 @@ const CourseCard = observer(({ course }) => {
     );
 });
 
-const Home = observer(({ navigation }) => (
+const Home = observer(() => (
     <View style={styles.container}>
         <FlatList
             data={rootStore.coursesStore.Courses}
@@ -110,30 +134,5 @@ function CoursesActivity() {
         </CoursesStack.Navigator>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#e6e6e6',
-        alignItems: 'stretch',
-        justifyContent: 'center',
-        paddingTop: 25,
-    },
-    card: {
-        margin: 10,
-        backgroundColor: '#fafafa',
-    },
-    titleText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    exerciseStyle: {
-        paddingTop: 30,
-        padding: 20,
-        backgroundColor: '#fff',
-        flex: 1,
-    },
-});
 
 export default CoursesActivity;

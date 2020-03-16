@@ -1,15 +1,27 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import {
-    TextInput, Colors, Button, Text,
+    TextInput, Colors, Button,
 } from 'react-native-paper';
-import { useNavigation } from '@react-navigation/native';
 import { FlatList } from 'react-native-gesture-handler';
 
-const AddMealActivity = observer(() => {
-    const navigator = useNavigation();
+const styles = StyleSheet.create({
+    container: {
+        marginHorizontal: 50,
+        marginTop: 50,
+    },
+    buttonAddMeasurement: {
+        marginTop: 20,
+        backgroundColor: '#ffa726',
+    },
+    buttonContent: {
+        paddingTop: 8,
+        paddingBottom: 8,
+    },
+});
 
+const AddMealActivity = observer(() => {
     const [food, setFood] = useState([
         {
             Name: 'Еда1',
@@ -50,21 +62,6 @@ const AddMealActivity = observer(() => {
             <FlatList />
         </View>
     );
-});
-
-const styles = StyleSheet.create({
-    container: {
-	      marginHorizontal: 50,
-        marginTop: 50,
-    },
-    buttonAddMeasurement: {
-        marginTop: 20,
-        backgroundColor: '#ffa726',
-    },
-    buttonContent: {
-        paddingTop: 8,
-        paddingBottom: 8,
-    },
 });
 
 export default AddMealActivity;

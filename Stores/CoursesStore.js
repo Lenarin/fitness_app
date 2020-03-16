@@ -1,7 +1,8 @@
 
 import { observable, action } from 'mobx';
 import { persist } from 'mobx-persist';
-import { Course, Exercise } from './Models/Courses';
+import Course from './Models/Courses';
+import Exercise from './Models/Exercise';
 import * as courseImages from '../assets/couses_images';
 
 class CoursesStore {
