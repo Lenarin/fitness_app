@@ -1,20 +1,20 @@
 import React from 'react'
 import { StyleSheet, AsyncStorage } from 'react-native'
 import { observer } from 'mobx-react'
-import { Card, Avatar, IconButton, Colors, Button, Text } from 'react-native-paper'
-import WaterStore from './WaterStore';
+import { Card, Avatar, Colors, Button, Text } from 'react-native-paper'
+import WeightStore from './WeightStore';
 import { useNavigation } from '@react-navigation/native';
 import { create } from 'mobx-persist';
 
-const waterStore = new WaterStore();
+const weightStore = new WeightStore();
 
 const hydrate = create({
     storage: AsyncStorage
 });
 
-hydrate('Water', waterStore);
+hydrate('Weight', weightStore);
 
-const WaterWidget = observer(() => {
+const WeightWidget = observer(() => {
     const navigator = useNavigation();
 
 	return (
@@ -22,19 +22,20 @@ const WaterWidget = observer(() => {
             elevation={1} 
             style={styles.card} 
             theme={{ roundness: 12 }}
+            onPress={() => navigator.navigate("WeightHistory")}
         >
-            <Card.Title title="Вода" left={(props) => <Avatar.Icon {...props} icon="water" style={styles.cardIcon}/>} />
+            <Card.Title title="Масса" left={(props) => <Avatar.Icon {...props} icon="weight" style={styles.cardIcon}/>} />
             
             <Card.Content style={styles.cardContent}>
                 <Text>
-                    Стаканов воды выпито: {waterStore.current}
+                    {weightStore.measurementHistory.length == 0 
+                        ? "Еще не добавлено ни одного измерения" 
+                        : "Последнее измерение: " + weightStore.measurementHistory[weightStore.measurementHistory.length - 1].Weight + "кг"}
                 </Text>
             </Card.Content>
 
             <Card.Actions style={styles.cardActions}>
-                <Button color={Colors.cyan700} onPress={() => waterStore.reset()}>Сбросить</Button>
-                <IconButton color={Colors.grey800} icon="minus-circle-outline" onPress={() => waterStore.decrement()} />
-                <IconButton color={Colors.grey800} icon="plus-circle-outline" onPress={() => waterStore.increment()} />
+                <Button color={Colors.cyan700} onPress={() => navigator.navigate("AddWeightMeasure")}>Добавить измерение</Button>
             </Card.Actions>
         </Card>
 	);
@@ -49,7 +50,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
     },
     cardIcon: {
-        backgroundColor: "#4bd1df"
+        backgroundColor: "#f1b514"
     },
     card: {
         margin: 10,
@@ -67,4 +68,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default WaterWidget;
+export { WeightWidget, weightStore};

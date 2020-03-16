@@ -1,10 +1,10 @@
 import React, {useState} from 'react'
-import { View, Button, StyleSheet, Text, Image } from 'react-native'
+import { View, StyleSheet, Text, Image } from 'react-native'
 import { rootStore } from '../Stores/Stores'
 import { observer } from 'mobx-react'
 import { createStackNavigator } from '@react-navigation/stack';
 import { FlatList } from 'react-native-gesture-handler';
-import { Card, Avatar, Paragraph, Title } from 'react-native-paper'
+import { Card, Avatar, Paragraph, Title, Button, Colors } from 'react-native-paper'
 import { observable } from 'mobx';
 import { useNavigation } from '@react-navigation/native';
 
@@ -23,16 +23,28 @@ const Exercise = observer(({route}) => {
 			<Image style={{width: '100%', height: 400, resizeMode: "contain"}} source={currentExercise.Image} />
 			<Text style={{padding: 10}}>{currentExercise.Text}</Text>
 			<View style={{flexDirection: 'row', justifyContent: "space-around"}}>
-				<Button title="Я сдаюсь" onPress={() => {navigator.goBack();}}/>
-				<Button title="Дальше!" onPress={() => {
-					if (currentIndex !== exercisesList.length) {
-						setCurrentIndex(currentIndex + 1);
-						setCurrentExercise(exercisesList[currentIndex]);
-					} else {
-						route.params.course.completed = true;
-						navigator.goBack();
-					}
-				}}/>
+				<Button 
+					onPress={() => navigator.goBack()}
+					color={Colors.red700}
+					mode={"contained"}
+				>
+					Я сдаюсь
+				</Button>
+				<Button 
+					onPress={() => {
+						if (currentIndex !== exercisesList.length) {
+							setCurrentIndex(currentIndex + 1);
+							setCurrentExercise(exercisesList[currentIndex]);
+						} else {
+							route.params.course.completed = true;
+							navigator.goBack();
+						}
+					}}
+					color={Colors.greenA700}
+					mode={"contained"}
+				>
+					Дальше!
+				</Button>
 			</View>
 		</View>
 	)
@@ -105,6 +117,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center'
 	},
 	exerciseStyle: {
+		paddingTop: 30,
 		padding: 20,
 		backgroundColor: '#fff',
 		flex: 1

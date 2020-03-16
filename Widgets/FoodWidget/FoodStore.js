@@ -1,7 +1,9 @@
 import { observable, action, computed } from "mobx";
+import { persist } from "mobx-persist";
 
 class FoodStore {
     // приемы пищи
+    @persist('list')
     @observable
     Meals = [];
 
@@ -16,9 +18,9 @@ class FoodStore {
 
         const res = this.Meals.filter(meal => meal.MealTime.toDateString() === today)
             .map(meal => meal.EatenFood.reduce((acc, item) => acc + item))
-            .reduce((total, calories) => total + calories);
+            .reduce((total, calories) => total + calories, 0);
 
-        console.log(res);
+        return res;
     }
 
     // количество калорий по дням
