@@ -7,7 +7,7 @@ import { WeightWidget } from '../Widgets/WeightWidget/WeightWidget';
 import FoodWidget from '../Widgets/FoodWidget/FoodWidget';
 import WaterWidget from '../Widgets/WaterWidget/WaterWidget';
 
-import FoodListActivity from '../Widgets/FoodWidget/Activities/FoodListActivity';
+import MealsListActivity from '../Widgets/FoodWidget/Activities/MealsListActivity';
 import WeightHistoryActivity from '../Widgets/WeightWidget/Activities/WeightHistoryActivity';
 import AddWeightMeasureActivity from '../Widgets/WeightWidget/Activities/AddWeightMeasureActivity';
 
@@ -20,8 +20,12 @@ const widgets = [
     widget: FoodWidget,
     activities: [
       {
-        name: "FoodList",
-        activity: FoodListActivity
+        name: "MealsList",
+        activity: MealsListActivity
+      },
+      {
+        name: "AddMeal",
+        activity: AddMealActivity
       }
     ]
   },

@@ -11,7 +11,7 @@ import { ScrollView } from 'react-native-gesture-handler'
             />
 */
 
-const FoodListActivity = observer(({navigation}) => {
+const MealsListActivity = observer(({navigation}) => {
 	return (
 		<View style={styles.container}>
             {/*<Button title="Add mealtime" onPress={() => navigation.navigate("NewMealtime")}/>*/}
@@ -23,7 +23,7 @@ const FoodListActivity = observer(({navigation}) => {
 const Meal = (props) => {
     return (
         <Card>
-            <Text>{props.MealTime.toDateString()}</Text>
+            <Text>{(new Date(props.MealTime)).toDateString()}</Text>
         </Card>
     )
 }
@@ -38,4 +38,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default FoodListActivity;
+export default MealsListActivity;

@@ -12,6 +12,8 @@ class FoodStore {
         this.Meals.push(meal);
     }
 
+    //TODO: reimplement
+    /*
     @computed
     get ConsumedTodayCalories() {
         const today = (new Date()).toDateString();
@@ -21,8 +23,8 @@ class FoodStore {
             .reduce((total, calories) => total + calories, 0);
 
         return res;
-    }
-
+    }*/
+/*
     // количество калорий по дням
     @computed
     get ConsumedCalories() {
@@ -39,7 +41,7 @@ class FoodStore {
         });
 
         return days;
-    }
+    }*/
 }
 
 export default FoodStore;

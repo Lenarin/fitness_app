@@ -60,7 +60,7 @@ const AddWeightMeasureActivity = observer(() => {
 
             <Button    
                 mode={"contained"}
-                theme={{ roundness: 50 }}
+                theme={{ roundness: 10 }}
                 onPress={hangleWeightSubmit}
                 style={styles.buttonAddMeasurement}
                 contentStyle={styles.buttonContent}
@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
     },
     buttonAddMeasurement: {
         marginTop: 20,
-        backgroundColor: "#f1b514"
+        backgroundColor: "#ffa726"
     },
     buttonContent: {
         paddingTop: 8,

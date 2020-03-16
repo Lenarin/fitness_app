@@ -15,7 +15,7 @@ const WeightHistoryEntry = ({ item }) => {
 
             <Card.Title 
                 title={item.Weight.toString()}
-                subtitle={item.MeasureDate.toLocaleString().slice(0, -3)}
+                subtitle={(new Date(item.MeasureDate)).toLocaleString().slice(0, -3)}
                 right={(props) => 
                     <IconButton
                         {...props} 
@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         width: "100%"
     },
     buttonAddMeasurement: {
-        backgroundColor: "#f1b514"
+        backgroundColor: "#ffa726"
     },
     buttonContent: {
         paddingTop: 8,

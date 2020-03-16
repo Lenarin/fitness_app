@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { StyleSheet, AsyncStorage } from 'react-native'
+import { StyleSheet, AsyncStorage, Dimensions, View } from 'react-native'
 import { observer } from 'mobx-react'
-import { Card, Button, Avatar, Text, Colors } from 'react-native-paper'
+import { Card, Button, Avatar, Text, Colors, Subheading } from 'react-native-paper'
 import FoodStore from './FoodStore';
 import { useNavigation } from '@react-navigation/native';
 import { create } from 'mobx-persist';
-import { LineChart } from "react-native-chart-kit";
-import { Dimensions } from "react-native";
+import { ProgressChart } from 'react-native-chart-kit';
+
 
 const foodStore = new FoodStore();
 
@@ -20,21 +20,27 @@ const FoodWidget = observer(() => {
     const navigator = useNavigation();
 
     const data = {
-        labels: ["January", "February", "March", "April", "May", "June"],
-        datasets: [
-            {
-                data: [20, 45, 28, 80, 99, 43]
-            }
-        ]
+        labels: ["Б", "Ж", "У", "ККал"], // optional
+        data: [0.5, 0.4, 0.6, 0.8]
     };
 
     const chartConfig = {
-        backgroundColor: "#e26a00",
-        backgroundGradientFrom: "#fb8c00",
-        backgroundGradientTo: "#ffa726",
-        decimalPlaces: 0, // optional, defaults to 2dp
-        color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-        labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+        backgroundColor: "#fafafa",
+        backgroundGradientFrom: "#fafafa",
+        backgroundGradientTo: "#fafafa",
+        color: (opacity = 1, index) => {
+            const dataColors = [
+                `rgba(81, 48, 168, ${opacity})`,
+                `rgba(211, 47, 47, ${opacity})`,
+                `rgba(255, 160, 0, ${opacity})`,
+                `rgba(0, 200, 83, ${opacity})`,
+                `rgba(48, 63, 159, ${opacity})`,
+                `rgba(0, 151, 167, ${opacity})`,
+            ];
+
+            return dataColors[index];
+        },
+        labelColor: (opacity = 1) => `rgba(15, 15, 15, ${opacity})`,
         style: {
           borderRadius: 16
         },
@@ -65,22 +71,20 @@ const FoodWidget = observer(() => {
             <Card.Title title="Питание" left={(props) => <Avatar.Icon {...props} icon="food" style={styles.cardIcon}/>} />
 
             <Card.Content>
-            <LineChart
-                data={data}
-                width={screenWidth - 50} // from react-native
-                height={220}
-                yAxisInterval={1} // optional, defaults to 1
-                chartConfig={chartConfig}
-                bezier
-                style={{
-                    marginVertical: 8,
-                    borderRadius: 16
-                }}
-            />
-
-                <Text>
-                    Потребление калорий за день: {foodStore.ConsumedTodayCalories}
-                </Text>
+                <Subheading>
+                    Потребление за день:
+                </Subheading>
+                
+                <ProgressChart
+                    data={data}
+                    width={screenWidth - 50}
+                    height={220}
+                    chartConfig={chartConfig}
+                    hideLegend={false}
+                    style={{
+                        marginVertical: 8,
+                    }}
+                />
             </Card.Content>
 
             <Card.Actions style={styles.cardActions}>
