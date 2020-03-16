@@ -2,10 +2,7 @@ import { decorate, observable, action, computed, toJS } from "mobx";
 import { persist } from "mobx-persist";
 import Measure from './Models/Measure';
 
-class WeightStore {
-    @persist('list')
-    @observable
-    measurementHistory = [
+/*
         {
             Weight: 50,
             MeasureDate: new Date(2020, 2, 1),
@@ -55,8 +52,12 @@ class WeightStore {
             Weight: 59,
             MeasureDate: new Date(2020, 2, 10),
             Id: '_' + Math.random().toString(36).substr(2, 9)
-        },
-    ];
+        },*/
+
+class WeightStore {
+    @persist('list')
+    @observable
+    measurementHistory = [];
 
     @action
     addMeasurement(measure) {

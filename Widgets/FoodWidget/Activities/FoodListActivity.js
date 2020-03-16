@@ -23,7 +23,7 @@ const FoodListActivity = observer(({navigation}) => {
 const Meal = (props) => {
     return (
         <Card>
-            <Text>{props.MealTime.toDateString()}</Text>
+            <Text>{(new Date(props.MealTime)).toDateString()}</Text>
         </Card>
     )
 }

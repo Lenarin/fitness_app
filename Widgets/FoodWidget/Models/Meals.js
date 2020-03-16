@@ -1,7 +1,7 @@
 class Meal {
     EatenFood = []
     
-    MealTime = new Date();
+    MealTime = (new Date()).getTime();
 }
 
 class Product {
