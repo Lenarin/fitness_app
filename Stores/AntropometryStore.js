@@ -47,6 +47,11 @@ class AntropometryStore {
 
         return res;
     }
+
+    @computed
+    get CanCalculateDCI() {
+        return this.Age > 0 && this.CurrentWeight > 0 && this.Height > 0;
+    }
 }
 
 export default AntropometryStore;

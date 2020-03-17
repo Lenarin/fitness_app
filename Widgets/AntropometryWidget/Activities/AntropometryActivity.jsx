@@ -12,7 +12,6 @@ import rootStore from '../../../Stores/Stores';
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         marginHorizontal: 20,
         marginTop: 50,
     },
@@ -22,6 +21,10 @@ const styles = StyleSheet.create({
     buttonContent: {
         paddingTop: 8,
         paddingBottom: 8,
+    },
+    heightInput: {
+        flex: 1,
+        justifyContent: 'flex-end',
     },
     radioGroupItem: {
         flex: 1,
@@ -43,7 +46,10 @@ const AntropometryActivity = observer(() => {
     const [birthdayDialogVisible, setBirthdayDialogVisible] = useState(false);
 
     const handleHeightChange = (newVal) => {
-        console.log(newVal);
+        if (newVal === '') {
+            rootStore.antropometryStore.Height = 0;
+            return;
+        }
 
         const num = Number.parseFloat(newVal);
 
@@ -54,8 +60,11 @@ const AntropometryActivity = observer(() => {
 
     return (
         <Provider>
-            <ScrollView>
-                <KeyboardAvoidingView style={styles.container} behavior="padding">
+            <KeyboardAvoidingView
+                style={styles.heightInput}
+                behavior="height"
+            >
+                <ScrollView style={styles.container}>
                     <Button
                         icon="trophy"
                         style={styles.antropometryInput}
@@ -191,6 +200,7 @@ const AntropometryActivity = observer(() => {
                         />
                     )}
 
+                    
                     <TextInput
                         label="Рост"
                         mode="outlined"
@@ -204,8 +214,8 @@ const AntropometryActivity = observer(() => {
                             },
                         }}
                     />
-                </KeyboardAvoidingView>
-            </ScrollView>
+                </ScrollView>
+            </KeyboardAvoidingView>
         </Provider>
     );
 });
