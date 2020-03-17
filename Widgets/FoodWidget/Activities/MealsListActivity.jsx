@@ -1,9 +1,13 @@
 import React from 'react';
 import {
-    View, StyleSheet, Text,
+    View, StyleSheet, Text, Image,
 } from 'react-native';
 import { observer } from 'mobx-react';
-import { Card } from 'react-native-paper';
+import {
+    Card, Button, Banner,
+} from 'react-native-paper';
+import { useNavigation } from '@react-navigation/native';
+import rootStore from '../../../Stores/Stores';
 
 const styles = StyleSheet.create({
     container: {
@@ -23,12 +27,40 @@ const styles = StyleSheet.create({
             />
 */
 
-const MealsListActivity = observer(() => (
-    <View style={styles.container}>
-        {/* <Button title="Add mealtime" onPress={() => navigation.navigate("NewMealtime")}/> */}
-        <Text>ASDJASKDASDKASJ</Text>
-    </View>
-));
+const MealsListActivity = observer(() => {
+    const navigator = useNavigation();
+
+    return (
+        <View style={styles.container}>
+            <Banner
+                visible={rootStore.antropometryStore.DCI === 0}
+                actions={[
+                    {
+                        label: 'Задать',
+                        onPress: () => navigator.navigate('Antropometry'),
+                    },
+                ]}
+                icon={({ size }) => (
+                    <Image
+                        source={{ uri: 'https://avatars3.githubusercontent.com/u/17571969?s=400&v=4' }}
+                        style={{
+                            width: size,
+                            height: size,
+                        }}
+                    />
+                )}
+            >
+                There was a problem processing a transaction on your credit card.
+            </Banner>
+
+            <Text>
+                {rootStore.antropometryStore.DCI}
+            </Text>
+
+            <Button title="Добавить новый прием пищи" onPress={() => navigator.navigate('AddMealtime')} />
+        </View>
+    );
+});
 
 const Meal = ({ mealTime }) => (
     <Card>

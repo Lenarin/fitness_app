@@ -1,8 +1,7 @@
 import {
-    decorate, observable, action, computed, toJS,
+    observable, action,
 } from 'mobx';
 import { persist } from 'mobx-persist';
-import Measure from './Models/Measure';
 
 class WeightStore {
     @persist('list')

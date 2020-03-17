@@ -92,7 +92,7 @@ const FoodWidget = observer(() => {
             elevation={1}
             style={styles.card}
             theme={{ roundness: 12 }}
-            onPress={() => navigator.navigate('FoodList')}
+            onPress={() => navigator.navigate('MealsList')}
         >
             <Card.Title title="Питание" left={(props) => <Avatar.Icon {...props} icon="food" style={styles.cardIcon} />} />
 
@@ -103,7 +103,7 @@ const FoodWidget = observer(() => {
 
                 <ProgressChart
                     data={data}
-                    width={screenWidth - 50}
+                    width={screenWidth - 55}
                     height={220}
                     chartConfig={chartConfig}
                     hideLegend={false}

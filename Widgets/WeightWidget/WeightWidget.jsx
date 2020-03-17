@@ -98,7 +98,7 @@ const WeightWidget = observer(() => {
             <Card.Title title="Масса" left={(props) => <Avatar.Icon {...props} icon="weight" style={styles.cardIcon} />} />
 
             <Card.Content style={styles.cardContent}>
-                {weightStore.measurementHistory.length == 0
+                {weightStore.measurementHistory.length === 0
                     ? <Text>Еще не добавлено ни одного измерения</Text>
                     : null}
 
@@ -110,7 +110,7 @@ const WeightWidget = observer(() => {
                     ? (
                         <LineChart
                             data={data}
-                            width={screenWidth - 50}
+                            width={screenWidth - 55}
                             height={220}
                             chartConfig={weightChartConfig}
                             bezier

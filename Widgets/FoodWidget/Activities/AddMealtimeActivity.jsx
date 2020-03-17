@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import {
-    TextInput, Colors, Button,
+    TextInput, Colors, Button, List,
 } from 'react-native-paper';
 import { FlatList } from 'react-native-gesture-handler';
 
@@ -21,16 +21,39 @@ const styles = StyleSheet.create({
     },
 });
 
-const AddMealActivity = observer(() => {
+const FoodListItem = ({ food }) => {
+    return (
+        <List.Accordion title={(new Date(food.MealTime)).toLocaleString().slice(-3)}>
+        </List.Accordion>
+    );
+};
+
+const AddMealtimeActivity = observer(() => {
     const [food, setFood] = useState([
         {
             Name: 'Еда1',
-            Proteins: 0, // Б
-            Fats: 0, // Ж
-            Carbohydrates: 0, // У
-            Calories: 0,
+            Proteins: 1, // Б
+            Fats: 2, // Ж
+            Carbohydrates: 3, // У
+            Calories: 4,
+        },
+        {
+            Name: 'Еда2',
+            Proteins: 1, // Б
+            Fats: 2, // Ж
+            Carbohydrates: 3, // У
+            Calories: 4,
+        },
+        {
+            Name: 'Еда3',
+            Proteins: 1, // Б
+            Fats: 2, // Ж
+            Carbohydrates: 3, // У
+            Calories: 4,
         },
     ]);
+
+    const [currMeal, setCurrMeal] = useState('');
 
     return (
         <View style={styles.container}>
@@ -38,8 +61,8 @@ const AddMealActivity = observer(() => {
                 <TextInput
                     label="Введите Ваш вес"
                     mode="outlined"
-                    value={weight}
-                    onChangeText={handleWeightChange}
+                    value={currMeal}
+                    onChangeText={setCurrMeal}
                     keyboardType="numeric"
                     theme={{
                         colors: {
@@ -51,7 +74,7 @@ const AddMealActivity = observer(() => {
                 <Button
                     mode="contained"
                     theme={{ roundness: 10 }}
-                    onPress={hangleWeightSubmit}
+                    onPress={handleWeightSubmit}
                     style={styles.buttonAddMeasurement}
                     contentStyle={styles.buttonContent}
                 >
@@ -59,9 +82,12 @@ const AddMealActivity = observer(() => {
                 </Button>
             </View>
 
-            <FlatList />
+            <FlatList
+                data={food}
+                renderItem={({ item }) => null} 
+            />
         </View>
     );
 });
 
-export default AddMealActivity;
+export default AddMealtimeActivity;

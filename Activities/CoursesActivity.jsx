@@ -9,7 +9,7 @@ import {
     Card, Paragraph, Title, Button, Colors,
 } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import RootStore from '../Stores/Stores';
+import rootStore from '../Stores/Stores';
 
 const styles = StyleSheet.create({
     container: {
@@ -45,14 +45,14 @@ const Exercise = observer(({ route }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     return (
         <View style={styles.exerciseStyle}>
-            <Text style={styles.titleText}>{currentExercise.Title}</Text>
             <Text style={styles.titleText}>
-                Упражнение
+                {'Упражнение '}
                 {currentIndex + 1}
                 {' '}
                 из
                 {exercisesList.length + 1}
             </Text>
+            <Text style={styles.titleText}>{currentExercise.Title}</Text>
             <Text style={styles.titleText}>
                 {currentExercise.Repeats}
                 {' '}

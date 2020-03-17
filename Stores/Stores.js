@@ -2,21 +2,16 @@ import { observable } from 'mobx';
 import { AsyncStorage } from 'react-native';
 import { create, persist } from 'mobx-persist';
 import CourseStore from './CoursesStore';
-import TickStore from './TickStore';
+import AntropometryStore from './AntropometryStore';
 
 class RootStore {
     @persist('object')
     @observable
-    tickStore = new TickStore();
-
-    //  for example
-    @persist('object')
-    @observable
-    tick2Store = new TickStore();
-
-    @persist('object')
-    @observable
     coursesStore = new CourseStore();
+
+    @persist('object')
+    @observable
+    antropometryStore = new AntropometryStore();
 }
 
 const rootStore = new RootStore();
@@ -27,4 +22,4 @@ const hydrate = create({
 
 hydrate('App', rootStore);
 
-export default RootStore;
+export default rootStore;

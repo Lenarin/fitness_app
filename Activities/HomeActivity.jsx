@@ -6,7 +6,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { WeightWidget } from '../Widgets/WeightWidget/WeightWidget';
 import FoodWidget from '../Widgets/FoodWidget/FoodWidget';
 import WaterWidget from '../Widgets/WaterWidget/WaterWidget';
+import AntropometryWidget from '../Widgets/AntropometryWidget/AntropometryWidget';
 
+import AntropometryActivity from '../Widgets/AntropometryWidget/Activities/AntropometryActivity'; 
+import AddMealtimeActivity from '../Widgets/FoodWidget/Activities/AddMealtimeActivity';
 import MealsListActivity from '../Widgets/FoodWidget/Activities/MealsListActivity';
 import WeightHistoryActivity from '../Widgets/WeightWidget/Activities/WeightHistoryActivity';
 import AddWeightMeasureActivity from '../Widgets/WeightWidget/Activities/AddWeightMeasureActivity';
@@ -26,6 +29,16 @@ const HomeStack = createStackNavigator();
 
 const widgets = [
     {
+        name: 'Antropometry',
+        widget: AntropometryWidget,
+        activities: [
+            {
+                name: 'Antropometry',
+                activity: AntropometryActivity,
+            },
+        ],
+    },
+    {
         name: 'Food',
         widget: FoodWidget,
         activities: [
@@ -34,8 +47,8 @@ const widgets = [
                 activity: MealsListActivity,
             },
             {
-                name: 'AddMeal',
-                activity: AddMealActivity,
+                name: 'AddMealtime',
+                activity: AddMealtimeActivity,
             },
         ],
     },
