@@ -6,16 +6,16 @@ import { persist } from 'mobx-persist';
 class WeightStore {
     @persist('list')
     @observable
-    measurementHistory = [];
+    MeasurementHistory = [];
 
     @action
     addMeasurement(measure) {
-        this.measurementHistory.push(measure);
+        this.MeasurementHistory.push(measure);
     }
 
     @action
     removeMeasure(measure) {
-        this.measurementHistory.remove(measure);
+        this.MeasurementHistory.remove(measure);
     }
 }
 

@@ -28,9 +28,9 @@ const AddWeightMeasureActivity = observer(() => {
     const navigator = useNavigation();
 
     const [weight, setWeight] = useState(() => {
-        return weightStore.measurementHistory.length === 0
+        return weightStore.MeasurementHistory.length === 0
             ? ''
-            : weightStore.measurementHistory[weightStore.measurementHistory.length - 1].Weight.toString();
+            : weightStore.MeasurementHistory[weightStore.MeasurementHistory.length - 1].Weight.toString();
     });
 
     const hangleWeightSubmit = useCallback(() => {

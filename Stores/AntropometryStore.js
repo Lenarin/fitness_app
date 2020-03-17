@@ -16,7 +16,7 @@ class AntropometryStore {
 
     @persist
     @observable
-    BirtDate = (new Date()).getTime();
+    BirtDate = Date.now();
 
     @persist
     @observable

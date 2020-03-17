@@ -1,31 +1,65 @@
 import React from 'react';
 import {
-    View, StyleSheet, Text, Image,
+    View, StyleSheet, FlatList,
 } from 'react-native';
 import { observer } from 'mobx-react';
 import {
-    Card, Button, Banner,
+    Button, Banner, Headline, Colors, Avatar, List, FAB,
 } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import rootStore from '../../../Stores/Stores';
+import { foodStore } from '../FoodWidget';
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'column',
         backgroundColor: '#fff',
-        alignItems: 'center',
+        alignItems: 'stretch',
         justifyContent: 'center',
+        paddingTop: 25,
+    },
+    listHeader: {
+        paddingTop: 25,
+        marginHorizontal: 12,
+    },
+    listFooter: {
+        height: 75,
+    },
+    bannerIcon: {
+        backgroundColor: '#94d148',
+    },
+    fab: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: 0,
     },
 });
 
-/*
-<ScrollView
-                sections={foodStore.Meals}
-                keyExtractor={meal => meal.MealTime}
-                renderItem={Meal}
-            />
-*/
+const Mealtime = ({ item }) => {
+    return (
+        <List.Accordion
+            title={`${(new Date(item.MealTime)).toUTCString().slice(0, -7)}`}
+        >
+            {item.EatenFood.map((food) => (
+                <List.Accordion key={food.Name} title={food.Name} style={{ marginLeft: 20 }}>
+                    <List.Item style={{ marginLeft: 40 }} title={`Белки: ${food.Proteins}г`} />
+                    <List.Item style={{ marginLeft: 40 }} title={`Жиры: ${food.Fats}г`} />
+                    <List.Item style={{ marginLeft: 40 }} title={`Углеводы: ${food.Carbohydrates}г`} />
+                </List.Accordion>
+            ))}
+
+            <Button
+                icon="close"
+                onPress={() => foodStore.removeMeal(item)}
+                color={Colors.red500}
+            >
+                Удалить
+            </Button>
+        </List.Accordion>
+    );
+};
 
 const MealsListActivity = observer(() => {
     const navigator = useNavigation();
@@ -33,43 +67,45 @@ const MealsListActivity = observer(() => {
     return (
         <View style={styles.container}>
             <Banner
-                visible={rootStore.antropometryStore.DCI === 0}
+                visible={!rootStore.antropometryStore.CanCalculateDCI}
                 actions={[
                     {
-                        label: 'Задать',
+                        label: 'Ввести данные',
                         onPress: () => navigator.navigate('Antropometry'),
+                        color: Colors.cyan500,
                     },
                 ]}
-                icon={({ size }) => (
-                    <Image
-                        source={{ uri: 'https://avatars3.githubusercontent.com/u/17571969?s=400&v=4' }}
-                        style={{
-                            width: size,
-                            height: size,
-                        }}
-                    />
-                )}
+                icon={(props) => <Avatar.Icon {...props} icon="human" style={styles.bannerIcon} />}
             >
-                There was a problem processing a transaction on your credit card.
+                Для расчета дневной нормы калорий необходимо ввести антропометрические данные
             </Banner>
 
-            <Text>
-                {rootStore.antropometryStore.DCI}
-            </Text>
+            <FlatList
+                data={foodStore.Meals}
+                renderItem={(item) => <Mealtime {...item} />}
+                ListFooterComponent={<View style={styles.listFooter} />}
+                ListHeaderComponent={(
+                    <Headline style={styles.listHeader}>
+                        Приемы пищи
+                    </Headline>
+                )}
+                keyExtractor={(item) => item.Id}
+                extraData={foodStore.Meals.length}
+            />
 
-            <Button
+            <FAB
+                theme={{
+                    colors: {
+                        accent: Colors.amber700,
+                    },
+                }}
+                color={Colors.white}
+                style={styles.fab}
+                icon="plus"
                 onPress={() => navigator.navigate('AddMealtime')}
-            >
-                Добавить новый прием пищи
-            </Button>
+            />
         </View>
     );
 });
-
-const Meal = ({ mealTime }) => (
-    <Card>
-        <Text>{(new Date(mealTime)).toDateString()}</Text>
-    </Card>
-);
 
 export default MealsListActivity;

@@ -1,10 +1,10 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import {
-    View, StyleSheet, Platform, KeyboardAvoidingView,
+    StyleSheet, Platform, KeyboardAvoidingView,
 } from 'react-native';
 import { observer } from 'mobx-react';
 import {
-    Colors, Button, Dialog, Portal, Paragraph, Provider, RadioButton, TextInput,
+    Colors, Button, Dialog, Portal, Provider, RadioButton, TextInput,
 } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
         marginTop: 50,
     },
     antropometryInput: {
-        marginTop: 20,
+        marginVertical: 10,
     },
     buttonContent: {
         paddingTop: 8,
@@ -92,36 +92,18 @@ const AntropometryActivity = observer(() => {
 
                             <Dialog.Content>
                                 <RadioButton.Group
+                                    value={rootStore.antropometryStore.CurrentGoal}
                                     onValueChange={(value) => {
                                         rootStore.antropometryStore.CurrentGoal = value;
+                                        setGoalDialogVisible(false);
                                     }}
-                                    value={rootStore.antropometryStore.CurrentGoal}
                                 >
-                                    <View>
-                                        <RadioButton value="не задано" />
-                                        <Paragraph>не задано</Paragraph>
-                                    </View>
-
-                                    <View>
-                                        <RadioButton value="набор массы" />
-                                        <Paragraph>набор массы</Paragraph>
-                                    </View>
-
-                                    <View>
-                                        <RadioButton value="набор массы" />
-                                        <Paragraph>поддержание веса</Paragraph>
-                                    </View>
-
-                                    <View>
-                                        <RadioButton value="похудение" />
-                                        <Paragraph>похудение</Paragraph>
-                                    </View>
+                                    <RadioButton.Item label="не задано" value="не задано" />
+                                    <RadioButton.Item label="набор массы" value="набор массы" />
+                                    <RadioButton.Item label="поддержание веса" value="поддержание веса" />
+                                    <RadioButton.Item label="похудение" value="похудение" />
                                 </RadioButton.Group>
                             </Dialog.Content>
-
-                            <Dialog.Actions>
-                                <Button onPress={() => setGoalDialogVisible(false)}>ОК</Button>
-                            </Dialog.Actions>
                         </Dialog>
                     </Portal>
 
@@ -149,29 +131,15 @@ const AntropometryActivity = observer(() => {
                                 <RadioButton.Group
                                     onValueChange={(value) => {
                                         rootStore.antropometryStore.Gender = value;
+                                        setGenderDialogVisible(false);
                                     }}
                                     value={rootStore.antropometryStore.Gender}
                                 >
-                                    <View>
-                                        <RadioButton value="не указан" />
-                                        <Paragraph>не задано</Paragraph>
-                                    </View>
-
-                                    <View>
-                                        <RadioButton value="мужской" color={Colors.blue500} />
-                                        <Paragraph>мужской</Paragraph>
-                                    </View>
-
-                                    <View>
-                                        <RadioButton value="женский" color={Colors.pink500} />
-                                        <Paragraph>женский</Paragraph>
-                                    </View>
+                                    <RadioButton.Item label="не задано" value="не указан" />
+                                    <RadioButton.Item label="мужской" value="мужской" />
+                                    <RadioButton.Item label="женский" value="женский" />
                                 </RadioButton.Group>
                             </Dialog.Content>
-
-                            <Dialog.Actions>
-                                <Button onPress={() => setGenderDialogVisible(false)}>ОК</Button>
-                            </Dialog.Actions>
                         </Dialog>
                     </Portal>
 
@@ -200,13 +168,25 @@ const AntropometryActivity = observer(() => {
                         />
                     )}
 
-                    
+                    <TextInput
+                        label="Текущий вес"
+                        mode="outlined"
+                        value={rootStore.antropometryStore.CurrentWeight.toString()}
+                        disabled
+                        style={styles.antropometryInput}
+                        theme={{
+                            colors: {
+                                primary: Colors.cyan700,
+                            },
+                        }}
+                    />
+
                     <TextInput
                         label="Рост"
                         mode="outlined"
                         value={rootStore.antropometryStore.Height.toString()}
                         onChangeText={handleHeightChange}
-                        keyboardType="decimal-pad"
+                        keyboardType="numeric"
                         style={styles.antropometryInput}
                         theme={{
                             colors: {

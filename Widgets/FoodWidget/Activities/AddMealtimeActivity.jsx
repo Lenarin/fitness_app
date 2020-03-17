@@ -2,18 +2,21 @@ import React, { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import {
-    TextInput, Colors, Button, List,
+    TextInput, Colors, Button, List, FAB,
 } from 'react-native-paper';
 import { FlatList } from 'react-native-gesture-handler';
+import { foodStore } from '../FoodWidget';
 
 const styles = StyleSheet.create({
     container: {
-        marginHorizontal: 50,
-        marginTop: 50,
+        flex: 1,
+        marginTop: 25,
     },
-    buttonAddMeasurement: {
-        marginTop: 20,
-        backgroundColor: '#ffa726',
+    fab: {
+        position: 'absolute',
+        margin: 16,
+        right: 0,
+        bottom: 0,
     },
     buttonContent: {
         paddingTop: 8,
@@ -21,9 +24,16 @@ const styles = StyleSheet.create({
     },
 });
 
-const FoodListItem = ({ food }) => {
+const FoodListItem = ({ item }) => {
     return (
-        <List.Accordion title={(new Date(food.MealTime)).toLocaleString().slice(-3)}>
+        <List.Accordion title={(new Date(item.MealTime)).toLocaleString().slice(-3)}>
+            {item.EatenFood.map((food) => (
+                <List.Accordion key={food.Name} title={food.Name} style={{ marginLeft: 20 }}>
+                    <List.Item style={{ marginLeft: 40 }} title={`Белки: ${food.Proteins}г`} />
+                    <List.Item style={{ marginLeft: 40 }} title={`Жиры: ${food.Fats}г`} />
+                    <List.Item style={{ marginLeft: 40 }} title={`Углеводы: ${food.Carbohydrates}г`} />
+                </List.Accordion>
+            ))}
         </List.Accordion>
     );
 };
@@ -57,7 +67,22 @@ const AddMealtimeActivity = observer(() => {
 
     return (
         <View style={styles.container}>
-            <View>
+            <FAB
+                theme={{
+                    colors: {
+                        accent: Colors.amber700,
+                    },
+                }}
+                color={Colors.white}
+                style={styles.fab}
+                icon="plus"
+                onPress={() => console.log('a')}
+            />
+        </View>
+    );
+});
+
+/* <View>
                 <TextInput
                     label="Блюдо"
                     mode="outlined"
@@ -85,8 +110,13 @@ const AddMealtimeActivity = observer(() => {
                 data={food}
                 renderItem={({ item }) => null}
             />
-        </View>
-    );
-});
+
+            <Button
+                icon="close"
+                onPress={() => foodStore.removeMeal(item)}
+                color={Colors.red500}
+            >
+                Удалить
+            </Button> */
 
 export default AddMealtimeActivity;
