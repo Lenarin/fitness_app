@@ -59,7 +59,7 @@ const AddMealtimeActivity = observer(() => {
         <View style={styles.container}>
             <View>
                 <TextInput
-                    label="Введите Ваш вес"
+                    label="Блюдо"
                     mode="outlined"
                     value={currMeal}
                     onChangeText={setCurrMeal}
@@ -74,7 +74,6 @@ const AddMealtimeActivity = observer(() => {
                 <Button
                     mode="contained"
                     theme={{ roundness: 10 }}
-                    onPress={handleWeightSubmit}
                     style={styles.buttonAddMeasurement}
                     contentStyle={styles.buttonContent}
                 >
@@ -84,7 +83,7 @@ const AddMealtimeActivity = observer(() => {
 
             <FlatList
                 data={food}
-                renderItem={({ item }) => null} 
+                renderItem={({ item }) => null}
             />
         </View>
     );

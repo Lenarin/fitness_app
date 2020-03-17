@@ -57,7 +57,11 @@ const MealsListActivity = observer(() => {
                 {rootStore.antropometryStore.DCI}
             </Text>
 
-            <Button title="Добавить новый прием пищи" onPress={() => navigator.navigate('AddMealtime')} />
+            <Button
+                onPress={() => navigator.navigate('AddMealtime')}
+            >
+                Добавить новый прием пищи
+            </Button>
         </View>
     );
 });

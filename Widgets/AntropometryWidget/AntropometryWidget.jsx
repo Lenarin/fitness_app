@@ -42,7 +42,7 @@ const AntropometryWidget = observer(() => {
             elevation={1}
             style={styles.card}
             theme={{ roundness: 12 }}
-            onPress={() => navigator.navigate('MealsList')}
+            onPress={() => navigator.navigate('Antropometry')}
         >
             <Card.Title title="Я" left={(props) => <Avatar.Icon {...props} icon="human" style={styles.cardIcon} />} />
 
