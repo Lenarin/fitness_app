@@ -2,7 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, Dimensions } from 'react-native';
 import { ContributionGraph } from 'react-native-chart-kit';
 // import { observer } from 'mobx-react';
-import { Colors } from 'react-native-paper';
+import {
+    Colors, Card, Avatar, Paragraph,
+} from 'react-native-paper';
+import { observer } from 'mobx-react';
+import { FlatList } from 'react-native-gesture-handler';
+import achievementStore from '../Stores/AchievementsStore';
 
 const styles = StyleSheet.create({
     container: {
@@ -28,14 +33,8 @@ const styles = StyleSheet.create({
 });
 
 
-const CalendarCard = (() => {
-    const commitsData = [
-        { date: '2020-03-06', count: 2 },
-        { date: '2020-03-05', count: 5 },
-        { date: '2020-03-10', count: 3 },
-        { date: '2020-03-11', count: 3 },
-        { date: '2020-03-09', count: 3 },
-    ];
+const CalendarCard = observer(({ setDate, achievements }) => {
+    const [commitsData, setCommitsData] = useState([]);
 
     const chartConfig = {
         backgroundColor: Colors.white,
@@ -43,7 +42,6 @@ const CalendarCard = (() => {
         backgroundGradientTo: Colors.white,
         decimalPlaces: 2, // optional, defaults to 2dp
         color: (opacity = 1) => `rgba(255, 165, 0, ${opacity})`,
-        labelColor: (opacity = 1) => `rgba(0, 0, 0, ${opacity})`,
         style: {
             borderRadius: 16,
             margin: 10,
@@ -54,6 +52,13 @@ const CalendarCard = (() => {
             stroke: '#ffa726',
         },
     };
+
+    useEffect(() => {
+        setCommitsData(achievements.map((value) => {
+            return { date: value.Date, count: value.Price };
+        }));
+    }, []);
+
 
     const [screenWidth, setScreenWidth] = useState(Dimensions.get('window').width - chartConfig.style.margin * 2);
 
@@ -74,15 +79,48 @@ const CalendarCard = (() => {
                 numDays={90}
                 endDate={new Date(Date.now())}
                 chartConfig={chartConfig}
+                onDayPress={(elem) => setDate(elem.date)}
             />
         </View>
     );
 });
 
-export default function CalendarActivity() {
+const AchievementCard = (({ achievement }) => {
+    return (
+        <Card
+            elevation={1}
+            style={styles.card}
+            theme={{ roundness: 5 }}
+        >
+            <Card.Title title={achievement.Title} left={(props) => <Avatar.Icon {...props} icon={achievement.IconName} backgroundColor={achievement.IconColor} />} />
+            <Card.Content>
+                <Paragraph>
+                    {achievement.Description}
+                </Paragraph>
+            </Card.Content>
+        </Card>
+    );
+});
+
+const AchievementList = observer(({ achievements }) => {
+    return (
+        <FlatList
+            data={achievements}
+            renderItem={({ item }) => <AchievementCard achievement={item} />}
+            keyExtractor={(item, index) => `${index}`}
+        />
+    );
+});
+
+
+const CalendarActivity = observer(() => {
+    const [date, setDate] = useState(new Date(Date.now()).toDateString());
     return (
         <View style={styles.container}>
-            <CalendarCard />
+            <CalendarCard setDate={setDate} achievements={achievementStore.Achievements} />
+            <AchievementList achievements={achievementStore.Achievements.filter((val) => (val.Date === date))} />
         </View>
     );
-}
+});
+
+export default CalendarActivity;

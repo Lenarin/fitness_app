@@ -10,6 +10,8 @@ import {
 } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import coursesStore from '../Stores/CoursesStore';
+import achievementStore from '../Stores/AchievementsStore';
+import Achievement from '../Stores/Models/Achievements';
 
 const styles = StyleSheet.create({
     container: {
@@ -77,6 +79,7 @@ const Exercise = observer(({ route }) => {
                             setCurrentExercise(exercisesList[currentIndex + 1]);
                         } else {
                             coursesStore.setCompleted(route.params.course);
+                            achievementStore.addAchievement(new Achievement(new Date(Date.now()), 1, 'food', '#148841', `Законченна тренировка ${route.params.course.Label}`, 'Хорошая тренировка'));
                             navigator.goBack();
                         }
                     }}

@@ -64,6 +64,6 @@ const hydrate = create({
     storage: AsyncStorage,
 });
 
-hydrate('App', coursesStore);
+hydrate('Courses', coursesStore);
 
 export default coursesStore;
