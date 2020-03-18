@@ -41,7 +41,7 @@ const CalendarCard = observer(({ setDate, achievements }) => {
         backgroundGradientFrom: Colors.white,
         backgroundGradientTo: Colors.white,
         decimalPlaces: 2, // optional, defaults to 2dp
-        color: (opacity = 1) => `rgba(255, 165, 0, ${opacity})`,
+        color: (opacity = 1) => `rgba(255, 165, 0, ${opacity || 0})`,
         style: {
             borderRadius: 16,
             margin: 10,
@@ -92,7 +92,12 @@ const AchievementCard = (({ achievement }) => {
             style={styles.card}
             theme={{ roundness: 5 }}
         >
-            <Card.Title title={achievement.Title} left={(props) => <Avatar.Icon {...props} icon={achievement.IconName} backgroundColor={achievement.IconColor} />} />
+            <Card.Title
+                title={achievement.Title}
+                subtitle={achievement.Date.toString()}
+                left={(props) => <Avatar.Icon {...props} icon={achievement.IconName} backgroundColor={achievement.IconColor} />}
+            />
+
             <Card.Content>
                 <Paragraph>
                     {achievement.Description}

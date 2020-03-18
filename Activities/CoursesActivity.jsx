@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-    View, StyleSheet, Text, Image, ScrollView
+    View, StyleSheet, Text, Image, ScrollView,
 } from 'react-native';
 import { observer } from 'mobx-react';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -33,8 +33,6 @@ const styles = StyleSheet.create({
     exerciseStyle: {
         paddingTop: 30,
         backgroundColor: '#fff',
-        flex: 1,
-        justifyContent: 'space-between',
     },
 });
 
@@ -46,18 +44,19 @@ const Exercise = observer(({ route }) => {
     const [currentExercise, setCurrentExercise] = useState(route.params.course.Exercises[0]);
     const [currentIndex, setCurrentIndex] = useState(0);
     return (
-        <ScrollView style={styles.exerciseStyle}>
+        <ScrollView
+            style={styles.exerciseStyle}
+            contentContainerStyle={{
+                flex: 1,
+                justifyContent: 'space-between',
+            }}
+        >
             <Text style={styles.titleText}>
-                {'Упражнение '}
-                {currentIndex + 1}
-                {' из '}
-                {exercisesList.length + 1}
+                {`Упражнение ${currentIndex + 1} из ${exercisesList.length + 1}`}
             </Text>
             <Text style={styles.titleText}>{currentExercise.Title}</Text>
             <Text style={styles.titleText}>
-                {currentExercise.Repeats}
-                {' '}
-                повторений
+                {`${currentExercise.Repeats} повторений`}
             </Text>
             <Image style={{ width: '100%', height: 400, resizeMode: 'contain' }} source={currentExercise.Image} />
             <Text style={{ padding: 10 }}>{currentExercise.Text}</Text>

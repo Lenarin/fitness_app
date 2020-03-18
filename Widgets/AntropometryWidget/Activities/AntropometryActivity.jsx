@@ -200,16 +200,4 @@ const AntropometryActivity = observer(() => {
     );
 });
 
-/**
- * <Button
-                    icon="ruler"
-                    style={styles.button}
-                    mode="outlined"
-                    theme={buttonTheme}
-                    contentStyle={styles.buttonContent}
-                >
-                    {`${rootStore.antropometryStore.Height.toPrecision(1)} см`}
-                </Button>
- */
-
 export default AntropometryActivity;
