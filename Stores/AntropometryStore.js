@@ -31,12 +31,7 @@ class AntropometryStore {
         const unixTimeDiff = Date.now() - this.BirtDate;
         const ageDate = new Date(unixTimeDiff);
 
-        const res = Math.abs(ageDate.getUTCFullYear() - 1970);
-
-        console.log(unixTimeDiff);
-        console.log(`BirtDate = ${new Date(this.BirtDate)}`);
-        console.log(`Age = ${res}`);
-        return res;
+        return Math.abs(ageDate.getUTCFullYear() - 1970);
     }
 
     @computed

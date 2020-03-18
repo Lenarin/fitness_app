@@ -77,7 +77,7 @@ const Exercise = observer(({ route }) => {
                             setCurrentExercise(exercisesList[currentIndex + 1]);
                         } else {
                             coursesStore.setCompleted(route.params.course);
-                            achievementStore.addAchievement(new Achievement(new Date(Date.now()), 1, 'food', '#148841', `Тренировка ${route.params.course.Label} завершена`, 'Хорошая тренировка'));
+                            achievementStore.addAchievement(new Achievement(new Date(Date.now()), 1, 'dumbbell', Colors.greenA700, `Тренировка ${route.params.course.Label} завершена`, 'Хорошая тренировка'));
                             navigator.goBack();
                         }
                     }}
@@ -111,9 +111,15 @@ const CourseCard = observer(({ course }) => {
                 <Paragraph>
                     {course.Description}
                 </Paragraph>
-                <Paragraph style={{ textAlign: 'center' }}>
-                    {course.Completed ? 'Закончен!' : ''}
-                </Paragraph>
+
+                {course.Completed ? (
+                    <Button
+                        icon="check"
+                        color={Colors.greenA700}
+                    >
+                        Завершен!
+                    </Button>
+                ) : null}
             </Card.Content>
         </Card>
     );

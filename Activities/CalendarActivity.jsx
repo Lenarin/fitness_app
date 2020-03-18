@@ -110,7 +110,7 @@ const AchievementCard = (({ achievement }) => {
         >
             <Card.Title
                 title={achievement.Title}
-                subtitle={new Date(achievement.Date).toLocaleDateString()}
+                subtitle={`${new Date(achievement.Date).toLocaleDateString()}, ${new Date(achievement.Date).toTimeString().slice(0, 5)}`}
                 left={(props) => <Avatar.Icon {...props} icon={achievement.IconName} backgroundColor={achievement.IconColor} />}
             />
 
