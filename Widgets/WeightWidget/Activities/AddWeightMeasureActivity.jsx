@@ -7,7 +7,7 @@ import {
 import { useNavigation } from '@react-navigation/native';
 import { weightStore } from '../WeightWidget';
 import Measure from '../Models/Measure';
-import rootStore from '../../../Stores/Stores';
+import antropometryStore from '../../../Stores/AntropometryStore';
 
 const styles = StyleSheet.create({
     container: {
@@ -42,7 +42,7 @@ const AddWeightMeasureActivity = observer(() => {
         measurement.Weight = Number.parseFloat(weight);
 
         weightStore.addMeasurement(measurement);
-        rootStore.antropometryStore.CurrentWeight = measurement.Weight;
+        antropometryStore.CurrentWeight = measurement.Weight;
 
         navigator.goBack();
     });

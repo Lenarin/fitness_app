@@ -7,7 +7,6 @@ import {
     Button, Banner, Headline, Colors, Avatar, List, FAB,
 } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import rootStore from '../../../Stores/Stores';
 import { foodStore } from '../FoodWidget';
 
 const styles = StyleSheet.create({
@@ -72,7 +71,7 @@ const MealsListActivity = observer(() => {
     return (
         <View style={styles.container}>
             <Banner
-                visible={!rootStore.antropometryStore.CanCalculateDCI}
+                visible={!antropometryStore.CanCalculateDCI}
                 actions={[
                     {
                         label: 'Ввести данные',

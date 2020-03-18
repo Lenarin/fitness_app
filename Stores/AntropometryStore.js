@@ -1,7 +1,11 @@
 import { observable, computed } from 'mobx';
-import { persist } from 'mobx-persist';
+import { persist, create } from 'mobx-persist';
+import { AsyncStorage } from 'react-native';
 
 class AntropometryStore {
+    @observable
+    hydrated = false;
+
     @persist
     @observable
     Gender = 'не указан';
@@ -26,7 +30,13 @@ class AntropometryStore {
     get Age() {
         const unixTimeDiff = Date.now() - this.BirtDate;
         const ageDate = new Date(unixTimeDiff);
-        return Math.abs(ageDate.getUTCFullYear() - 1970);
+
+        const res = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+        console.log(unixTimeDiff);
+        console.log(`BirtDate = ${new Date(this.BirtDate)}`);
+        console.log(`Age = ${res}`);
+        return res;
     }
 
     @computed
@@ -54,4 +64,12 @@ class AntropometryStore {
     }
 }
 
-export default AntropometryStore;
+const antropometryStore = new AntropometryStore();
+
+const hydrate = create({
+    storage: AsyncStorage,
+});
+
+hydrate('Antropometry', antropometryStore);
+
+export default antropometryStore;

@@ -10,7 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { create } from 'mobx-persist';
 import { ProgressChart } from 'react-native-chart-kit';
 import FoodStore from './FoodStore';
-import rootStore from '../../Stores/Stores';
+import antropometryStore from '../../Stores/AntropometryStore';
 
 const styles = StyleSheet.create({
     container: {
@@ -47,8 +47,8 @@ const FoodWidget = observer(() => {
 
     const chartData = [0, 0, 0, 0];
 
-    if (rootStore.antropometryStore.CanCalculateDCI) {
-        const nutrients = foodStore.getNutrientsPercentage(rootStore.antropometryStore.DCI);
+    if (antropometryStore.CanCalculateDCI) {
+        const nutrients = foodStore.getNutrientsPercentage(antropometryStore.DCI);
 
         chartData[0] = nutrients.Proteins > 1 ? 1 : nutrients.Proteins;
         chartData[1] = nutrients.Fats > 1 ? 1 : nutrients.Fats;
@@ -108,11 +108,11 @@ const FoodWidget = observer(() => {
             <Card.Title title="Питание" left={(props) => <Avatar.Icon {...props} icon="food" style={styles.cardIcon} />} />
 
             <Card.Content>
-                {rootStore.antropometryStore.CanCalculateDCI
+                {antropometryStore.CanCalculateDCI
                     ? (
                         <>
                             <Subheading>
-                                {`Норма калорий за день: ${rootStore.antropometryStore.DCI.toFixed(0)}`}
+                                {`Норма калорий за день: ${antropometryStore.DCI.toFixed(0)}`}
                             </Subheading>
                             <Subheading>
                                 {`Потребление за день: ${foodStore.ConsumedToday.Calories} ккал`}

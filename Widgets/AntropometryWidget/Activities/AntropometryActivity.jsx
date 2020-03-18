@@ -8,7 +8,7 @@ import {
 } from 'react-native-paper';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { ScrollView } from 'react-native-gesture-handler';
-import rootStore from '../../../Stores/Stores';
+import antropometryStore from '../../../Stores/AntropometryStore';
 
 const styles = StyleSheet.create({
     container: {
@@ -82,14 +82,14 @@ const AntropometryActivity = observer(() => {
 
     const handleHeightChange = (newVal) => {
         if (newVal === '') {
-            rootStore.antropometryStore.Height = 0;
+            antropometryStore.Height = 0;
             return;
         }
 
         const num = Number.parseFloat(newVal);
 
         if (Number.isFinite(num) && num >= 0 && num < 300) {
-            rootStore.antropometryStore.Height = num;
+            antropometryStore.Height = num;
         }
     };
 
@@ -110,7 +110,7 @@ const AntropometryActivity = observer(() => {
                         onPress={() => setDailyActivityDialogVisible(true)}
                         contentStyle={styles.buttonContent}
                     >
-                        {dailyActivity.find((it) => it.value === rootStore.antropometryStore.DailyActivityCoefficient).label}
+                        {dailyActivity.find((it) => it.value === antropometryStore.DailyActivityCoefficient).label}
                     </Button>
 
                     <Portal>
@@ -124,9 +124,9 @@ const AntropometryActivity = observer(() => {
 
                             <Dialog.Content>
                                 <RadioButton.Group
-                                    value={rootStore.antropometryStore.DailyActivityCoefficient.toFixed(2)}
+                                    value={antropometryStore.DailyActivityCoefficient.toFixed(2)}
                                     onValueChange={(value) => {
-                                        rootStore.antropometryStore.DailyActivityCoefficient = Number.parseFloat(value);
+                                        antropometryStore.DailyActivityCoefficient = Number.parseFloat(value);
                                         setDailyActivityDialogVisible(false);
                                     }}
                                 >
@@ -150,7 +150,7 @@ const AntropometryActivity = observer(() => {
                         onPress={() => setGenderDialogVisible(true)}
                         contentStyle={styles.buttonContent}
                     >
-                        {`Пол: ${rootStore.antropometryStore.Gender}`}
+                        {`Пол: ${antropometryStore.Gender}`}
                     </Button>
 
                     <Portal>
@@ -165,10 +165,10 @@ const AntropometryActivity = observer(() => {
                             <Dialog.Content>
                                 <RadioButton.Group
                                     onValueChange={(value) => {
-                                        rootStore.antropometryStore.Gender = value;
+                                        antropometryStore.Gender = value;
                                         setGenderDialogVisible(false);
                                     }}
-                                    value={rootStore.antropometryStore.Gender}
+                                    value={antropometryStore.Gender}
                                 >
                                     <RadioButton.Item label="не задано" value="не указан" />
                                     <RadioButton.Item label="мужской" value="мужской" />
@@ -186,19 +186,23 @@ const AntropometryActivity = observer(() => {
                         onPress={() => setBirthdayDialogVisible(true)}
                         contentStyle={styles.buttonContent}
                     >
-                        {(new Date(rootStore.antropometryStore.BirtDate)).toLocaleDateString()}
+                        {antropometryStore.Age > 0
+                            ? (new Date(antropometryStore.BirtDate)).toLocaleDateString()
+                            : 'не указана'}
                     </Button>
 
                     {birthdayDialogVisible && (
                         <DateTimePicker
                             timeZoneOffsetInMinutes={0}
-                            value={new Date(rootStore.antropometryStore.BirtDate)}
+                            value={new Date(antropometryStore.BirtDate)}
                             mode="date"
                             display="default"
+                            maximumDate={new Date()}
                             onChange={(event, selectedDate) => {
-                                const currentDate = selectedDate || new Date(rootStore.antropometryStore.BirtDate);
+                                const currentDate = selectedDate || new Date(antropometryStore.BirtDate);
+
                                 setBirthdayDialogVisible(Platform.OS === 'ios');
-                                rootStore.antropometryStore.BirtDate = currentDate;
+                                antropometryStore.BirtDate = currentDate.getTime();
                             }}
                         />
                     )}
@@ -206,7 +210,7 @@ const AntropometryActivity = observer(() => {
                     <TextInput
                         label="Текущий вес"
                         mode="outlined"
-                        value={rootStore.antropometryStore.CurrentWeight.toString()}
+                        value={antropometryStore.CurrentWeight.toString()}
                         disabled
                         style={styles.antropometryInput}
                         theme={{
@@ -219,7 +223,7 @@ const AntropometryActivity = observer(() => {
                     <TextInput
                         label="Рост"
                         mode="outlined"
-                        value={rootStore.antropometryStore.Height.toString()}
+                        value={antropometryStore.Height.toString()}
                         onChangeText={handleHeightChange}
                         keyboardType="numeric"
                         style={styles.antropometryInput}

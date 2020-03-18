@@ -2,10 +2,10 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import {
-    Card, Avatar, Colors, Button, Subheading,
+    Card, Avatar, Colors, Button, Chip,
 } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import rootStore from '../../Stores/Stores';
+import antropometryStore from '../../Stores/AntropometryStore';
 
 const styles = StyleSheet.create({
     container: {
@@ -24,8 +24,13 @@ const styles = StyleSheet.create({
     },
     cardContent: {
         flex: 1,
+        justifyContent: 'space-around',
+        flexWrap: 'wrap',
         flexDirection: 'row',
-        justifyContent: 'space-between',
+    },
+    antropometryChip: {
+        marginVertical: 6,
+        marginHorizontal: 6,
     },
     cardActions: {
         flex: 1,
@@ -37,6 +42,14 @@ const styles = StyleSheet.create({
 const AntropometryWidget = observer(() => {
     const navigator = useNavigation();
 
+    let genderIcon = 'gender-male-female';
+    if (antropometryStore.Gender === 'мужской') {
+        genderIcon = 'gender-male';
+    } else if (antropometryStore.Gender === 'женский') {
+        genderIcon = 'gender-female';
+    }
+
+
     return (
         <Card
             elevation={1}
@@ -44,12 +57,52 @@ const AntropometryWidget = observer(() => {
             theme={{ roundness: 12 }}
             onPress={() => navigator.navigate('Antropometry')}
         >
-            <Card.Title title="Я" left={(props) => <Avatar.Icon {...props} icon="human" style={styles.cardIcon} />} />
+            <Card.Title title="Антропометрия" left={(props) => <Avatar.Icon {...props} icon="human" style={styles.cardIcon} />} />
 
             <Card.Content style={styles.cardContent}>
-                <Subheading>
-                    {`Текущая цель: ${rootStore.antropometryStore.CurrentGoal || 0}`}
-                </Subheading>
+                {antropometryStore.Height > 0
+                    ? (
+                        <Chip
+                            style={styles.antropometryChip}
+                            mode="flat"
+                            icon="ruler"
+                        >
+                            {`${antropometryStore.Height} см`}
+                        </Chip>
+                    ) : null}
+
+                {antropometryStore.CurrentWeight > 0
+                    ? (
+                        <Chip
+                            style={styles.antropometryChip}
+                            mode="flat"
+                            icon="weight"
+                        >
+                            {`${antropometryStore.CurrentWeight} кг`}
+                        </Chip>
+                    ) : null}
+
+                {antropometryStore.Gender !== 'не указан'
+                    ? (
+                        <Chip
+                            style={styles.antropometryChip}
+                            mode="flat"
+                            icon={genderIcon}
+                        >
+                            {`${antropometryStore.Gender}`}
+                        </Chip>
+                    ) : null}
+
+                {antropometryStore.Age > 0
+                    ? (
+                        <Chip
+                            style={styles.antropometryChip}
+                            mode="flat"
+                            icon="calendar"
+                        >
+                            {(new Date(antropometryStore.BirtDate)).toLocaleDateString()}
+                        </Chip>
+                    ) : null}
             </Card.Content>
 
             <Card.Actions style={styles.cardActions}>
