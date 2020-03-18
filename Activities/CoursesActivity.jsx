@@ -9,7 +9,7 @@ import {
     Card, Paragraph, Title, Button, Colors,
 } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import rootStore from '../Stores/Stores';
+import coursesStore from '../Stores/CoursesStore';
 
 const styles = StyleSheet.create({
     container: {
@@ -33,6 +33,7 @@ const styles = StyleSheet.create({
         padding: 20,
         backgroundColor: '#fff',
         flex: 1,
+        justifyContent: 'space-between',
     },
 });
 
@@ -45,21 +46,22 @@ const Exercise = observer(({ route }) => {
     const [currentIndex, setCurrentIndex] = useState(0);
     return (
         <View style={styles.exerciseStyle}>
-            <Text style={styles.titleText}>
-                {'Упражнение '}
-                {currentIndex + 1}
-                {' '}
-                из
-                {exercisesList.length + 1}
-            </Text>
-            <Text style={styles.titleText}>{currentExercise.Title}</Text>
-            <Text style={styles.titleText}>
-                {currentExercise.Repeats}
-                {' '}
-                повторений
-            </Text>
-            <Image style={{ width: '100%', height: 400, resizeMode: 'contain' }} source={currentExercise.Image} />
-            <Text style={{ padding: 10 }}>{currentExercise.Text}</Text>
+            <View>
+                <Text style={{ ...styles.titleText, marginBottom: 14 }}>
+                    {'Упражнение '}
+                    {currentIndex + 1}
+                    {' из '}
+                    {exercisesList.length}
+                </Text>
+                <Text style={styles.titleText}>{currentExercise.Title}</Text>
+                <Text style={styles.titleText}>
+                    {currentExercise.Repeats}
+                    {' '}
+                    повторений
+                </Text>
+                <Image style={{ width: '100%', height: 200, resizeMode: 'contain' }} source={currentExercise.Image} />
+                <Text style={{ padding: 10 }}>{currentExercise.Text}</Text>
+            </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
                 <Button
                     onPress={() => navigator.goBack()}
@@ -70,11 +72,11 @@ const Exercise = observer(({ route }) => {
                 </Button>
                 <Button
                     onPress={() => {
-                        if (currentIndex !== exercisesList.length) {
+                        if (currentIndex !== exercisesList.length - 1) {
                             setCurrentIndex(currentIndex + 1);
-                            setCurrentExercise(exercisesList[currentIndex]);
+                            setCurrentExercise(exercisesList[currentIndex + 1]);
                         } else {
-                            route.params.course.setCompleted(true);
+                            coursesStore.setCompleted(route.params.course);
                             navigator.goBack();
                         }
                     }}
@@ -108,7 +110,7 @@ const CourseCard = observer(({ course }) => {
                 <Paragraph>
                     {course.Description}
                 </Paragraph>
-                <Paragraph>
+                <Paragraph style={{ textAlign: 'center' }}>
                     {course.Completed ? 'Закончен!' : ''}
                 </Paragraph>
             </Card.Content>
@@ -119,7 +121,7 @@ const CourseCard = observer(({ course }) => {
 const Home = observer(() => (
     <View style={styles.container}>
         <FlatList
-            data={rootStore.coursesStore.Courses}
+            data={coursesStore.Courses}
             renderItem={({ item }) => <CourseCard course={item} />}
             keyExtractor={(item, index) => `${index}`}
         />

@@ -15,7 +15,7 @@ export default function App() {
             <Tab.Navigator
                 shifting
                 screenOptions={({ route }) => ({
-                    tabBarIcon: ({ focused, color, size }) => {
+                    tabBarIcon: ({ color }) => {
                         let iconName;
 
                         if (route.name === 'Home') {

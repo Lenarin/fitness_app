@@ -23,8 +23,7 @@ const styles = StyleSheet.create({
 
 const FoodListItem = ({ food }) => {
     return (
-        <List.Accordion title={(new Date(food.MealTime)).toLocaleString().slice(-3)}>
-        </List.Accordion>
+        <List.Accordion title={(new Date(food.MealTime)).toLocaleString().slice(-3)} />
     );
 };
 

@@ -1,12 +1,19 @@
+import { observable, action } from 'mobx';
+
 class Course {
+    @observable
     Label = '';
 
+    @observable
     Description = '';
 
+    @observable
     Image = '';
 
+    @observable
     Exercises = [];
 
+    @observable
     Completed = false;
 
     constructor(label, image, description, exercises) {
@@ -16,9 +23,11 @@ class Course {
         this.Exercises = exercises;
     }
 
-    setCompleted(completed) {
+    @action
+    setCompleted = (completed) => {
         this.Completed = completed;
     }
 }
+
 
 export default Course;

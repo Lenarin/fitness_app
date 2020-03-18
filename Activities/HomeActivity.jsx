@@ -8,7 +8,7 @@ import FoodWidget from '../Widgets/FoodWidget/FoodWidget';
 import WaterWidget from '../Widgets/WaterWidget/WaterWidget';
 import AntropometryWidget from '../Widgets/AntropometryWidget/AntropometryWidget';
 
-import AntropometryActivity from '../Widgets/AntropometryWidget/Activities/AntropometryActivity'; 
+import AntropometryActivity from '../Widgets/AntropometryWidget/Activities/AntropometryActivity';
 import AddMealtimeActivity from '../Widgets/FoodWidget/Activities/AddMealtimeActivity';
 import MealsListActivity from '../Widgets/FoodWidget/Activities/MealsListActivity';
 import WeightHistoryActivity from '../Widgets/WeightWidget/Activities/WeightHistoryActivity';
