@@ -51,15 +51,17 @@ const Exercise = observer(({ route }) => {
                 justifyContent: 'space-between',
             }}
         >
-            <Text style={styles.titleText}>
-                {`Упражнение ${currentIndex + 1} из ${exercisesList.length + 1}`}
-            </Text>
-            <Text style={styles.titleText}>{currentExercise.Title}</Text>
-            <Text style={styles.titleText}>
-                {`${currentExercise.Repeats} повторений`}
-            </Text>
-            <Image style={{ width: '100%', height: 400, resizeMode: 'contain' }} source={currentExercise.Image} />
-            <Text style={{ padding: 10 }}>{currentExercise.Text}</Text>
+            <View>
+                <Text style={styles.titleText}>
+                    {`Упражнение ${currentIndex + 1} из ${exercisesList.length}`}
+                </Text>
+                <Text style={styles.titleText}>{currentExercise.Title}</Text>
+                <Text style={styles.titleText}>
+                    {`${currentExercise.Repeats} повторений`}
+                </Text>
+                <Image style={{ width: '100%', height: 200, resizeMode: 'contain' }} source={currentExercise.Image} />
+                <Text style={{ padding: 10 }}>{currentExercise.Text}</Text>
+            </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingBottom: 40 }}>
                 <Button
                     onPress={() => navigator.goBack()}
@@ -75,7 +77,7 @@ const Exercise = observer(({ route }) => {
                             setCurrentExercise(exercisesList[currentIndex + 1]);
                         } else {
                             coursesStore.setCompleted(route.params.course);
-                            achievementStore.addAchievement(new Achievement(new Date(Date.now()), 1, 'food', '#148841', `Законченна тренировка ${route.params.course.Label}`, 'Хорошая тренировка'));
+                            achievementStore.addAchievement(new Achievement(new Date(Date.now()), 1, 'food', '#148841', `Тренировка ${route.params.course.Label} завершена`, 'Хорошая тренировка'));
                             navigator.goBack();
                         }
                     }}

@@ -54,7 +54,8 @@ class CoursesStore {
 
     @action
     setCompleted = (obj) => {
-        obj.setCompleted(true);
+        // eslint-disable-next-line no-param-reassign
+        obj.Completed = true;
     }
 }
 

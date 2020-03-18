@@ -9,6 +9,21 @@ import { observer } from 'mobx-react';
 import { FlatList } from 'react-native-gesture-handler';
 import achievementStore from '../Stores/AchievementsStore';
 
+const russianMonths = [
+    'Январь',
+    'Февраль',
+    'Март',
+    'Апреть',
+    'Май',
+    'Июнь',
+    'Июль',
+    'Август',
+    'Сентябрь',
+    'Октябрь',
+    'Ноябрь',
+    'Декабрь',
+];
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -41,7 +56,7 @@ const CalendarCard = observer(({ setDate, achievements }) => {
         backgroundGradientFrom: Colors.white,
         backgroundGradientTo: Colors.white,
         decimalPlaces: 2, // optional, defaults to 2dp
-        color: (opacity = 1) => `rgba(255, 165, 0, ${opacity || 0})`,
+        color: (opacity = 1) => `rgba(255, 165, 0, ${opacity || 1})`,
         style: {
             borderRadius: 16,
             margin: 10,
@@ -79,7 +94,8 @@ const CalendarCard = observer(({ setDate, achievements }) => {
                 numDays={90}
                 endDate={new Date(Date.now())}
                 chartConfig={chartConfig}
-                onDayPress={(elem) => setDate(elem.date)}
+                onDayPress={(elem) => setDate(new Date(elem.date))}
+                getMonthLabel={(monthIndex) => russianMonths[monthIndex]}
             />
         </View>
     );
@@ -94,7 +110,7 @@ const AchievementCard = (({ achievement }) => {
         >
             <Card.Title
                 title={achievement.Title}
-                subtitle={achievement.Date.toString()}
+                subtitle={new Date(achievement.Date).toLocaleDateString()}
                 left={(props) => <Avatar.Icon {...props} icon={achievement.IconName} backgroundColor={achievement.IconColor} />}
             />
 
@@ -119,11 +135,11 @@ const AchievementList = observer(({ achievements }) => {
 
 
 const CalendarActivity = observer(() => {
-    const [date, setDate] = useState(new Date(Date.now()).toDateString());
+    const [date, setDate] = useState(new Date(Date.now()));
     return (
         <View style={styles.container}>
             <CalendarCard setDate={setDate} achievements={achievementStore.Achievements} />
-            <AchievementList achievements={achievementStore.Achievements.filter((val) => (val.Date === date))} />
+            <AchievementList achievements={achievementStore.Achievements.filter((val) => (new Date(val.Date).toDateString() === date.toDateString()))} />
         </View>
     );
 });

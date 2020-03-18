@@ -12,7 +12,7 @@ class Achievement {
     Title = '';
 
     constructor(date, price, iconName, iconColor, description, title) {
-        this.Date = date.toDateString();
+        this.Date = date;
         this.Price = price;
         this.IconName = iconName;
         this.IconColor = iconColor;
