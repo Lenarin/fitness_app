@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         width: '100%',
     },
     buttonAddMeasurement: {
-        backgroundColor: '#ffa726',
+        backgroundColor: Colors.amber700,
     },
     buttonContent: {
         paddingTop: 8,
@@ -73,7 +73,7 @@ const WeightHistoryActivity = observer(() => {
     return (
         <View style={styles.container}>
             <FlatList
-                data={weightStore.measurementHistory}
+                data={weightStore.MeasurementHistory}
                 renderItem={(item) => <WeightHistoryEntry {...item} />}
                 ListFooterComponent={<View style={styles.listFooter} />}
                 ListHeaderComponent={(
@@ -82,7 +82,7 @@ const WeightHistoryActivity = observer(() => {
                     </Headline>
                 )}
                 keyExtractor={(item) => item.Id}
-                extraData={weightStore.measurementHistory.length}
+                extraData={weightStore.MeasurementHistory.length}
             />
 
             <View style={styles.buttonWrapper}>

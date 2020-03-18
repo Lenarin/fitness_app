@@ -16,7 +16,7 @@ class AntropometryStore {
 
     @persist
     @observable
-    BirtDate = 0;
+    BirtDate = Date.now();
 
     @persist
     @observable
@@ -46,6 +46,11 @@ class AntropometryStore {
         res *= 1.38;
 
         return res;
+    }
+
+    @computed
+    get CanCalculateDCI() {
+        return this.Age > 0 && this.CurrentWeight > 0 && this.Height > 0;
     }
 }
 

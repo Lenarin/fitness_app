@@ -1,47 +1,128 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import { persist } from 'mobx-persist';
+
+const mockData = [
+    {
+        EatenFood: [
+            {
+                Name: 'Еда1',
+                Proteins: 1, // Б
+                Fats: 2, // Ж
+                Carbohydrates: 3, // У
+                Calories: 4,
+            },
+            {
+                Name: 'Еда2',
+                Proteins: 1, // Б
+                Fats: 2, // Ж
+                Carbohydrates: 3, // У
+                Calories: 4,
+            },
+            {
+                Name: 'Еда3',
+                Proteins: 1, // Б
+                Fats: 2, // Ж
+                Carbohydrates: 3, // У
+                Calories: 4,
+            },
+        ],
+        MealTime: Date.now(),
+        Id: `_${Math.random().toString(36).substr(2, 9)}`,
+    },
+    {
+        EatenFood: [
+            {
+                Name: 'Еда1',
+                Proteins: 1, // Б
+                Fats: 2, // Ж
+                Carbohydrates: 3, // У
+                Calories: 4,
+            },
+            {
+                Name: 'Еда2',
+                Proteins: 1, // Б
+                Fats: 2, // Ж
+                Carbohydrates: 3, // У
+                Calories: 4,
+            },
+            {
+                Name: 'Еда3',
+                Proteins: 1, // Б
+                Fats: 2, // Ж
+                Carbohydrates: 3, // У
+                Calories: 4,
+            },
+        ],
+        MealTime: Date.now(),
+        Id: `_${Math.random().toString(36).substr(2, 9)}`,
+    },
+];
 
 class FoodStore {
     // приемы пищи
     @persist('list')
     @observable
-    Meals = [];
+    Meals = [];//mockData;// 
 
     @action
     addMeal(meal) {
         this.Meals.push(meal);
     }
 
-    // TODO: reimplement
-    /*
+    @action
+    removeMeal(meal) {
+        this.Meals.remove(meal);
+    }
+
+    // возвращает объект, содержащий количество потребленных за день веществ
     @computed
-    get ConsumedTodayCalories() {
-        const today = (new Date()).toDateString();
+    get ConsumedToday() {
+        const today = Math.trunc(Date.now() / 86400000);
 
-        const res = this.Meals.filter(meal => meal.MealTime.toDateString() === today)
-            .map(meal => meal.EatenFood.reduce((acc, item) => acc + item))
-            .reduce((total, calories) => total + calories, 0);
+        const consumed = {
+            Proteins: 0, // Б
+            Fats: 0, // Ж
+            Carbohydrates: 0, // У
+            Calories: 0,
+        };
 
-        return res;
-    } */
-/*
-    // количество калорий по дням
-    @computed
-    get ConsumedCalories() {
-        let days = new Map();
+        this.Meals
+            .filter((meal) => Math.trunc(meal.MealTime / 86400000) === today)
+            .forEach((meal) => meal.EatenFood.forEach((food) => {
+                consumed.Proteins += food.Proteins;
+                consumed.Fats += food.Fats;
+                consumed.Carbohydrates += food.Carbohydrates;
+                consumed.Calories += food.Calories;
+            }));
 
-        this.Meals.map(meal => ({
-            // посчитали калории за прием пищи
-            totalCalories: meal.EatenFood.reduce((acc, item) => acc + item),
-            day: meal.MealTime.toDateString()
-        })).forEach(meal => {
-            // если в мапе нет еще этого дня, то 0
-            let cals = days.get(meal.day) || 0;
-            days.set(meal.day, cals);
-        });
+        return consumed;
+    }
 
-        return days;
-    } */
+    getNutrientsPercentage(caloriesNum) {
+        const nutrients = {
+            Proteins: 0, // Б
+            Fats: 0, // Ж
+            Carbohydrates: 0, // У
+            Calories: 0,
+        };
+
+        if (!Number.isFinite(caloriesNum)) {
+            return nutrients;
+        }
+
+        const consumedToday = this.ConsumedToday;
+
+        if (caloriesNum > 0) {
+            const micronutrient = caloriesNum / 6;
+
+            nutrients.Proteins = consumedToday.Proteins / (micronutrient / 4);
+            nutrients.Fats = consumedToday.Fats / (micronutrient / 9);
+            nutrients.Carbohydrates = consumedToday.Carbohydrates / (micronutrient / 4);
+            nutrients.Calories = consumedToday.Calories / caloriesNum;
+        }
+
+        return nutrients;
+    }
 }
 
 export default FoodStore;

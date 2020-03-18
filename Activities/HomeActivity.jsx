@@ -4,7 +4,7 @@ import { FlatList } from 'react-native-gesture-handler';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import { WeightWidget } from '../Widgets/WeightWidget/WeightWidget';
-import FoodWidget from '../Widgets/FoodWidget/FoodWidget';
+import { FoodWidget } from '../Widgets/FoodWidget/FoodWidget';
 import WaterWidget from '../Widgets/WaterWidget/WaterWidget';
 import AntropometryWidget from '../Widgets/AntropometryWidget/AntropometryWidget';
 
@@ -29,16 +29,6 @@ const HomeStack = createStackNavigator();
 
 const widgets = [
     {
-        name: 'Antropometry',
-        widget: AntropometryWidget,
-        activities: [
-            {
-                name: 'Antropometry',
-                activity: AntropometryActivity,
-            },
-        ],
-    },
-    {
         name: 'Food',
         widget: FoodWidget,
         activities: [
@@ -53,9 +43,14 @@ const widgets = [
         ],
     },
     {
-        name: 'Water',
-        widget: WaterWidget,
-        activities: [],
+        name: 'Antropometry',
+        widget: AntropometryWidget,
+        activities: [
+            {
+                name: 'Antropometry',
+                activity: AntropometryActivity,
+            },
+        ],
     },
     {
         name: 'Weight',
@@ -70,6 +65,11 @@ const widgets = [
                 activity: AddWeightMeasureActivity,
             },
         ],
+    },
+    {
+        name: 'Water',
+        widget: WaterWidget,
+        activities: [],
     },
 ];
 

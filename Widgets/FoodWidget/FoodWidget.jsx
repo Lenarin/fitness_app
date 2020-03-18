@@ -10,6 +10,7 @@ import { useNavigation } from '@react-navigation/native';
 import { create } from 'mobx-persist';
 import { ProgressChart } from 'react-native-chart-kit';
 import FoodStore from './FoodStore';
+import rootStore from '../../Stores/Stores';
 
 const styles = StyleSheet.create({
     container: {
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#fafafa',
     },
     cardIcon: {
-        backgroundColor: '#52cbbc',
+        backgroundColor: Colors.teal400,
     },
     cardActions: {
         flex: 1,
@@ -32,7 +33,6 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
     },
 });
-
 
 const foodStore = new FoodStore();
 
@@ -45,9 +45,20 @@ hydrate('Food', foodStore);
 const FoodWidget = observer(() => {
     const navigator = useNavigation();
 
+    const chartData = [0, 0, 0, 0];
+
+    if (rootStore.antropometryStore.CanCalculateDCI) {
+        const nutrients = foodStore.getNutrientsPercentage(rootStore.antropometryStore.DCI);
+
+        chartData[0] = nutrients.Proteins;
+        chartData[1] = nutrients.Fats;
+        chartData[2] = nutrients.Carbohydrates;
+        chartData[3] = nutrients.Calories;
+    }
+
     const data = {
         labels: ['Б', 'Ж', 'У', 'ККал'], // optional
-        data: [0.5, 0.4, 0.6, 0.8],
+        data: chartData,
     };
 
     const chartConfig = {
@@ -97,27 +108,37 @@ const FoodWidget = observer(() => {
             <Card.Title title="Питание" left={(props) => <Avatar.Icon {...props} icon="food" style={styles.cardIcon} />} />
 
             <Card.Content>
-                <Subheading>
-                    Потребление за день:
-                </Subheading>
+                {rootStore.antropometryStore.CanCalculateDCI
+                    ? (
+                        <>
+                            <Subheading>
+                                {`Норма калорий за день: ${rootStore.antropometryStore.DCI.toFixed(0)}`}
+                            </Subheading>
+                            <Subheading>
+                                {`Потребление за день: ${foodStore.ConsumedToday.Calories} ккал`}
+                            </Subheading>
+                        </>
+                    )
+                    : null}
 
                 <ProgressChart
                     data={data}
-                    width={screenWidth - 55}
+                    width={screenWidth - 25}
                     height={220}
                     chartConfig={chartConfig}
                     hideLegend={false}
                     style={{
+                        marginLeft: -15,
                         marginVertical: 8,
                     }}
                 />
             </Card.Content>
 
             <Card.Actions style={styles.cardActions}>
-                <Button color={Colors.cyan700} onPress={() => navigator.navigate('FoodList')}>Подробнее</Button>
+                <Button color={Colors.cyan700} onPress={() => navigator.navigate('AddMealtime')}>+ прием пищи</Button>
             </Card.Actions>
         </Card>
     );
 });
 
-export default FoodWidget;
+export { FoodWidget, foodStore };

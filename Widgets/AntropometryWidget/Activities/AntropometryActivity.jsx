@@ -1,9 +1,13 @@
-import React, { useState, useCallback } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import {
+    StyleSheet, Platform, KeyboardAvoidingView,
+} from 'react-native';
 import { observer } from 'mobx-react';
 import {
-    Colors, Button, Dialog, Portal, Paragraph, Provider, RadioButton, Text,
+    Colors, Button, Dialog, Portal, Provider, RadioButton, TextInput,
 } from 'react-native-paper';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { ScrollView } from 'react-native-gesture-handler';
 import rootStore from '../../../Stores/Stores';
 
 const styles = StyleSheet.create({
@@ -11,12 +15,16 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         marginTop: 50,
     },
-    button: {
-        marginTop: 20,
+    antropometryInput: {
+        marginVertical: 10,
     },
     buttonContent: {
         paddingTop: 8,
         paddingBottom: 8,
+    },
+    heightInput: {
+        flex: 1,
+        justifyContent: 'flex-end',
     },
     radioGroupItem: {
         flex: 1,
@@ -36,132 +44,164 @@ const AntropometryActivity = observer(() => {
     const [goalDialogVisible, setGoalDialogVisible] = useState(false);
     const [genderDialogVisible, setGenderDialogVisible] = useState(false);
     const [birthdayDialogVisible, setBirthdayDialogVisible] = useState(false);
-    const [heightDialogVisible, setHeightDialogVisible] = useState(false);
+
+    const handleHeightChange = (newVal) => {
+        if (newVal === '') {
+            rootStore.antropometryStore.Height = 0;
+            return;
+        }
+
+        const num = Number.parseFloat(newVal);
+
+        if (Number.isFinite(num) && num >= 0 && num < 300) {
+            rootStore.antropometryStore.Height = num;
+        }
+    };
 
     return (
         <Provider>
-            <View style={styles.container}>
-                <Button
-                    icon="trophy"
-                    style={styles.button}
-                    mode="outlined"
-                    theme={{
-                        roundness: 5,
-                        colors: {
-                            primary: Colors.amber700,
-                        },
-                    }}
-                    onPress={() => setGoalDialogVisible(true)}
-                    contentStyle={styles.buttonContent}
-                >
-                    {`Текущая цель: ${rootStore.antropometryStore.CurrentGoal}`}
-                </Button>
-
-                <Portal>
-                    <Dialog
-                        visible={goalDialogVisible}
-                        onDismiss={() => setGoalDialogVisible(false)}
+            <KeyboardAvoidingView
+                style={styles.heightInput}
+                behavior="height"
+            >
+                <ScrollView style={styles.container}>
+                    <Button
+                        icon="trophy"
+                        style={styles.antropometryInput}
+                        mode="outlined"
+                        theme={{
+                            roundness: 5,
+                            colors: {
+                                primary: Colors.amber700,
+                            },
+                        }}
+                        onPress={() => setGoalDialogVisible(true)}
+                        contentStyle={styles.buttonContent}
                     >
-                        <Dialog.Title>
-                            Выберите цель
-                        </Dialog.Title>
+                        {`Текущая цель: ${rootStore.antropometryStore.CurrentGoal}`}
+                    </Button>
 
-                        <Dialog.Content>
-                            <RadioButton.Group
-                                onValueChange={(value) => {
-                                    rootStore.antropometryStore.CurrentGoal = value;
-                                }}
-                                value={rootStore.antropometryStore.CurrentGoal}
-                            >
-                                <View>
-                                    <RadioButton value="не задано" />
-                                    <Paragraph>не задано</Paragraph>
-                                </View>
+                    <Portal>
+                        <Dialog
+                            visible={goalDialogVisible}
+                            onDismiss={() => setGoalDialogVisible(false)}
+                        >
+                            <Dialog.Title>
+                                Выберите цель
+                            </Dialog.Title>
 
-                                <View>
-                                    <RadioButton value="набор массы" />
-                                    <Paragraph>набор массы</Paragraph>
-                                </View>
+                            <Dialog.Content>
+                                <RadioButton.Group
+                                    value={rootStore.antropometryStore.CurrentGoal}
+                                    onValueChange={(value) => {
+                                        rootStore.antropometryStore.CurrentGoal = value;
+                                        setGoalDialogVisible(false);
+                                    }}
+                                >
+                                    <RadioButton.Item label="не задано" value="не задано" />
+                                    <RadioButton.Item label="набор массы" value="набор массы" />
+                                    <RadioButton.Item label="поддержание веса" value="поддержание веса" />
+                                    <RadioButton.Item label="похудение" value="похудение" />
+                                </RadioButton.Group>
+                            </Dialog.Content>
+                        </Dialog>
+                    </Portal>
 
-                                <View>
-                                    <RadioButton value="набор массы" />
-                                    <Paragraph>поддержание веса</Paragraph>
-                                </View>
-
-                                <View>
-                                    <RadioButton value="похудение" />
-                                    <Paragraph>похудение</Paragraph>
-                                </View>
-                            </RadioButton.Group>
-                        </Dialog.Content>
-
-                        <Dialog.Actions>
-                            <Button onPress={() => setGoalDialogVisible(false)}>Done</Button>
-                        </Dialog.Actions>
-                    </Dialog>
-                </Portal>
-
-                <Button
-                    icon="gender-male"
-                    style={styles.button}
-                    mode="outlined"
-                    theme={buttonTheme}
-                    onPress={() => setGenderDialogVisible(true)}
-                    contentStyle={styles.buttonContent}
-                >
-                    {`Пол: ${rootStore.antropometryStore.Gender}`}
-                </Button>
-
-                <Portal>
-                    <Dialog
-                        visible={genderDialogVisible}
-                        onDismiss={() => setGenderDialogVisible(false)}
+                    <Button
+                        icon="gender-male-female"
+                        style={styles.antropometryInput}
+                        mode="outlined"
+                        theme={buttonTheme}
+                        onPress={() => setGenderDialogVisible(true)}
+                        contentStyle={styles.buttonContent}
                     >
-                        <Dialog.Title>
-                            Выберите Ваш пол
-                        </Dialog.Title>
+                        {`Пол: ${rootStore.antropometryStore.Gender}`}
+                    </Button>
 
-                        <Dialog.Content>
-                            <RadioButton.Group
-                                onValueChange={(value) => {
-                                    rootStore.antropometryStore.Gender = value;
-                                }}
-                                value={rootStore.antropometryStore.Gender}
-                            >
-                                <View>
-                                    <RadioButton value="не задано" />
-                                    <Paragraph>не задано</Paragraph>
-                                </View>
+                    <Portal>
+                        <Dialog
+                            visible={genderDialogVisible}
+                            onDismiss={() => setGenderDialogVisible(false)}
+                        >
+                            <Dialog.Title>
+                                Выберите Ваш пол
+                            </Dialog.Title>
 
-                                <View>
-                                    <RadioButton value="мужской" color={Colors.blue500}/>
-                                    <Paragraph>мужской</Paragraph>
-                                </View>
+                            <Dialog.Content>
+                                <RadioButton.Group
+                                    onValueChange={(value) => {
+                                        rootStore.antropometryStore.Gender = value;
+                                        setGenderDialogVisible(false);
+                                    }}
+                                    value={rootStore.antropometryStore.Gender}
+                                >
+                                    <RadioButton.Item label="не задано" value="не указан" />
+                                    <RadioButton.Item label="мужской" value="мужской" />
+                                    <RadioButton.Item label="женский" value="женский" />
+                                </RadioButton.Group>
+                            </Dialog.Content>
+                        </Dialog>
+                    </Portal>
 
-                                <View>
-                                    <RadioButton value="женский" color={Colors.pink500}/>
-                                    <Paragraph>женский</Paragraph>
-                                </View>
-                            </RadioButton.Group>
-                        </Dialog.Content>
+                    <Button
+                        icon="calendar"
+                        style={styles.antropometryInput}
+                        mode="outlined"
+                        theme={buttonTheme}
+                        onPress={() => setBirthdayDialogVisible(true)}
+                        contentStyle={styles.buttonContent}
+                    >
+                        {(new Date(rootStore.antropometryStore.BirtDate)).toLocaleDateString()}
+                    </Button>
 
-                        <Dialog.Actions>
-                            <Button onPress={() => setGenderDialogVisible(false)}>Done</Button>
-                        </Dialog.Actions>
-                    </Dialog>
-                </Portal>
+                    {birthdayDialogVisible && (
+                        <DateTimePicker
+                            timeZoneOffsetInMinutes={0}
+                            value={new Date(rootStore.antropometryStore.BirtDate)}
+                            mode="date"
+                            display="default"
+                            onChange={(event, selectedDate) => {
+                                const currentDate = selectedDate || new Date(rootStore.antropometryStore.BirtDate);
+                                setBirthdayDialogVisible(Platform.OS === 'ios');
+                                rootStore.antropometryStore.BirtDate = currentDate;
+                            }}
+                        />
+                    )}
 
-                <Button
-                    icon="calendar"
-                    style={styles.button}
-                    mode="outlined"
-                    theme={buttonTheme}
-                    contentStyle={styles.buttonContent}
-                >
-                    {(new Date(rootStore.antropometryStore.BirtDate)).toLocaleDateString()}
-                </Button>
+                    <TextInput
+                        label="Текущий вес"
+                        mode="outlined"
+                        value={rootStore.antropometryStore.CurrentWeight.toString()}
+                        disabled
+                        style={styles.antropometryInput}
+                        theme={{
+                            colors: {
+                                primary: Colors.cyan700,
+                            },
+                        }}
+                    />
 
-                <Button
+                    <TextInput
+                        label="Рост"
+                        mode="outlined"
+                        value={rootStore.antropometryStore.Height.toString()}
+                        onChangeText={handleHeightChange}
+                        keyboardType="numeric"
+                        style={styles.antropometryInput}
+                        theme={{
+                            colors: {
+                                primary: Colors.cyan700,
+                            },
+                        }}
+                    />
+                </ScrollView>
+            </KeyboardAvoidingView>
+        </Provider>
+    );
+});
+
+/**
+ * <Button
                     icon="ruler"
                     style={styles.button}
                     mode="outlined"
@@ -170,9 +210,6 @@ const AntropometryActivity = observer(() => {
                 >
                     {`${rootStore.antropometryStore.Height.toPrecision(1)} см`}
                 </Button>
-            </View>
-        </Provider>
-    );
-});
+ */
 
 export default AntropometryActivity;

@@ -27,7 +27,11 @@ const styles = StyleSheet.create({
 const AddWeightMeasureActivity = observer(() => {
     const navigator = useNavigation();
 
-    const [weight, setWeight] = useState('');
+    const [weight, setWeight] = useState(() => {
+        return weightStore.MeasurementHistory.length === 0
+            ? ''
+            : weightStore.MeasurementHistory[weightStore.MeasurementHistory.length - 1].Weight.toString();
+    });
 
     const hangleWeightSubmit = useCallback(() => {
         if (weight === '') {
