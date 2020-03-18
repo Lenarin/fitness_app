@@ -73,6 +73,7 @@ const AddWeightMeasureActivity = observer(() => {
                 label="Введите Ваш вес"
                 mode="outlined"
                 value={weight}
+                autoFocus
                 onChangeText={handleWeightChange}
                 keyboardType="numeric"
                 theme={{

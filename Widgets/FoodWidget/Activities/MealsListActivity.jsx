@@ -43,7 +43,12 @@ const Mealtime = ({ item }) => {
             title={`${(new Date(item.MealTime)).toUTCString().slice(0, -7)}`}
         >
             {item.EatenFood.map((food) => (
-                <List.Accordion key={food.Name} title={food.Name} style={{ marginLeft: 20 }}>
+                <List.Accordion
+                    key={food.Name}
+                    style={{ marginLeft: 20 }}
+                    title={food.Name}
+                    description={`${food.Calories} ккал`}
+                >
                     <List.Item style={{ marginLeft: 40 }} title={`Белки: ${food.Proteins}г`} />
                     <List.Item style={{ marginLeft: 40 }} title={`Жиры: ${food.Fats}г`} />
                     <List.Item style={{ marginLeft: 40 }} title={`Углеводы: ${food.Carbohydrates}г`} />

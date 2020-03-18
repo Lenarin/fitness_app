@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, AsyncStorage } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import {
-    Card, Avatar, IconButton, Colors, Button, Subheading,
+    Card, Avatar, Colors, Button, Subheading,
 } from 'react-native-paper';
-import rootStore from '../../Stores/Stores';
 import { useNavigation } from '@react-navigation/native';
+import rootStore from '../../Stores/Stores';
 
 const styles = StyleSheet.create({
     container: {
@@ -48,7 +48,7 @@ const AntropometryWidget = observer(() => {
 
             <Card.Content style={styles.cardContent}>
                 <Subheading>
-                    {`Текущая цель: ${rootStore.antropometryStore.CurrentGoal}`}
+                    {`Текущая цель: ${rootStore.antropometryStore.CurrentGoal || 0}`}
                 </Subheading>
             </Card.Content>
 

@@ -40,8 +40,43 @@ const buttonTheme = {
     },
 };
 
+const dailyActivity = [
+    {
+        label: 'Базовый обмен веществ',
+        value: 1.00,
+    },
+    {
+        label: 'Минимальная физ. нагрузка',
+        value: 1.20,
+    },
+    {
+        label: '3 раза в неделю',
+        value: 1.38,
+    },
+    {
+        label: '5 раз в неделю',
+        value: 1.46,
+    },
+    {
+        label: '5 раз в неделю (интенсивно)',
+        value: 1.55,
+    },
+    {
+        label: 'Каждый день',
+        value: 1.64,
+    },
+    {
+        label: '2 раза в день',
+        value: 1.73,
+    },
+    {
+        label: 'Тяжелая физ. нагрузка',
+        value: 1.90,
+    },
+];
+
 const AntropometryActivity = observer(() => {
-    const [goalDialogVisible, setGoalDialogVisible] = useState(false);
+    const [goalDialogVisible, setDailyActivityDialogVisible] = useState(false);
     const [genderDialogVisible, setGenderDialogVisible] = useState(false);
     const [birthdayDialogVisible, setBirthdayDialogVisible] = useState(false);
 
@@ -60,10 +95,7 @@ const AntropometryActivity = observer(() => {
 
     return (
         <Provider>
-            <KeyboardAvoidingView
-                style={styles.heightInput}
-                behavior="height"
-            >
+            <KeyboardAvoidingView behavior="height">
                 <ScrollView style={styles.container}>
                     <Button
                         icon="trophy"
@@ -75,33 +107,36 @@ const AntropometryActivity = observer(() => {
                                 primary: Colors.amber700,
                             },
                         }}
-                        onPress={() => setGoalDialogVisible(true)}
+                        onPress={() => setDailyActivityDialogVisible(true)}
                         contentStyle={styles.buttonContent}
                     >
-                        {`Текущая цель: ${rootStore.antropometryStore.CurrentGoal}`}
+                        {dailyActivity.find((it) => it.value === rootStore.antropometryStore.DailyActivityCoefficient).label}
                     </Button>
 
                     <Portal>
                         <Dialog
                             visible={goalDialogVisible}
-                            onDismiss={() => setGoalDialogVisible(false)}
+                            onDismiss={() => setDailyActivityDialogVisible(false)}
                         >
                             <Dialog.Title>
-                                Выберите цель
+                                Физическая активность
                             </Dialog.Title>
 
                             <Dialog.Content>
                                 <RadioButton.Group
-                                    value={rootStore.antropometryStore.CurrentGoal}
+                                    value={rootStore.antropometryStore.DailyActivityCoefficient.toFixed(2)}
                                     onValueChange={(value) => {
-                                        rootStore.antropometryStore.CurrentGoal = value;
-                                        setGoalDialogVisible(false);
+                                        rootStore.antropometryStore.DailyActivityCoefficient = Number.parseFloat(value);
+                                        setDailyActivityDialogVisible(false);
                                     }}
                                 >
-                                    <RadioButton.Item label="не задано" value="не задано" />
-                                    <RadioButton.Item label="набор массы" value="набор массы" />
-                                    <RadioButton.Item label="поддержание веса" value="поддержание веса" />
-                                    <RadioButton.Item label="похудение" value="похудение" />
+                                    {dailyActivity.map((item) => (
+                                        <RadioButton.Item
+                                            key={item.value.toFixed(2)}
+                                            label={item.label}
+                                            value={item.value.toFixed(2)}
+                                        />
+                                    ))}
                                 </RadioButton.Group>
                             </Dialog.Content>
                         </Dialog>

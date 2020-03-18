@@ -1,68 +1,11 @@
 import { observable, action, computed } from 'mobx';
 import { persist } from 'mobx-persist';
 
-const mockData = [
-    {
-        EatenFood: [
-            {
-                Name: 'Еда1',
-                Proteins: 1, // Б
-                Fats: 2, // Ж
-                Carbohydrates: 3, // У
-                Calories: 4,
-            },
-            {
-                Name: 'Еда2',
-                Proteins: 1, // Б
-                Fats: 2, // Ж
-                Carbohydrates: 3, // У
-                Calories: 4,
-            },
-            {
-                Name: 'Еда3',
-                Proteins: 1, // Б
-                Fats: 2, // Ж
-                Carbohydrates: 3, // У
-                Calories: 4,
-            },
-        ],
-        MealTime: Date.now(),
-        Id: `_${Math.random().toString(36).substr(2, 9)}`,
-    },
-    {
-        EatenFood: [
-            {
-                Name: 'Еда1',
-                Proteins: 1, // Б
-                Fats: 2, // Ж
-                Carbohydrates: 3, // У
-                Calories: 4,
-            },
-            {
-                Name: 'Еда2',
-                Proteins: 1, // Б
-                Fats: 2, // Ж
-                Carbohydrates: 3, // У
-                Calories: 4,
-            },
-            {
-                Name: 'Еда3',
-                Proteins: 1, // Б
-                Fats: 2, // Ж
-                Carbohydrates: 3, // У
-                Calories: 4,
-            },
-        ],
-        MealTime: Date.now(),
-        Id: `_${Math.random().toString(36).substr(2, 9)}`,
-    },
-];
-
 class FoodStore {
     // приемы пищи
     @persist('list')
     @observable
-    Meals = [];//mockData;// 
+    Meals = [];
 
     @action
     addMeal(meal) {

@@ -21,6 +21,10 @@ class Product {
     @persist
     @observable
     Calories = 0;
+
+    @persist
+    @observable
+    Id = `_${Math.random().toString(36).substr(2, 9)}`;
 }
 
 export default Product;

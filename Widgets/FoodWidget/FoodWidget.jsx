@@ -50,10 +50,10 @@ const FoodWidget = observer(() => {
     if (rootStore.antropometryStore.CanCalculateDCI) {
         const nutrients = foodStore.getNutrientsPercentage(rootStore.antropometryStore.DCI);
 
-        chartData[0] = nutrients.Proteins;
-        chartData[1] = nutrients.Fats;
-        chartData[2] = nutrients.Carbohydrates;
-        chartData[3] = nutrients.Calories;
+        chartData[0] = nutrients.Proteins > 1 ? 1 : nutrients.Proteins;
+        chartData[1] = nutrients.Fats > 1 ? 1 : nutrients.Fats;
+        chartData[2] = nutrients.Carbohydrates > 1 ? 1 : nutrients.Carbohydrates;
+        chartData[3] = nutrients.Calories > 1 ? 1 : nutrients.Calories;
     }
 
     const data = {

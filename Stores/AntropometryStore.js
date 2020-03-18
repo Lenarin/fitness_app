@@ -20,7 +20,7 @@ class AntropometryStore {
 
     @persist
     @observable
-    CurrentGoal = 'не задано';
+    DailyActivityCoefficient = 1.0;
 
     @computed
     get Age() {
