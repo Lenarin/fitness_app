@@ -1,12 +1,14 @@
-
 /* eslint-disable no-param-reassign */
 // because I am changing object fields
 import React, { useState, useCallback, useRef } from 'react';
-import { View, StyleSheet, KeyboardAvoidingView } from 'react-native';
+import {
+    View, StyleSheet, KeyboardAvoidingView, Platform,
+} from 'react-native';
 import { observer } from 'mobx-react';
 import {
-    TextInput, Colors, Appbar, FAB, Card, IconButton,
+    TextInput, Colors, Appbar, FAB, Card, IconButton, Button,
 } from 'react-native-paper';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { foodStore } from '../FoodWidget';
@@ -23,6 +25,14 @@ const styles = StyleSheet.create({
         margin: 16,
         right: 0,
         bottom: 0,
+    },
+    buttonMealTime: {
+        marginBottom: 15,
+        marginHorizontal: 15,
+    },
+    buttonContent: {
+        paddingTop: 8,
+        paddingBottom: 8,
     },
     foodList: {
         paddingVertical: 15,
@@ -45,6 +55,7 @@ const styles = StyleSheet.create({
         flexGrow: 2,
     },
     actionContainer: {
+        marginLeft: 15,
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
@@ -54,7 +65,12 @@ const styles = StyleSheet.create({
     },
 });
 
-/* */
+const buttonTheme = {
+    roundness: 5,
+    colors: {
+        primary: Colors.amber700,
+    },
+};
 
 const FoodListItem = observer(({ food, onDelete }) => {
     const [opened, setOpened] = useState(true);
@@ -69,6 +85,26 @@ const FoodListItem = observer(({ food, onDelete }) => {
     const refFatsInput = useRef();
     const refCarbohydratesInput = useRef();
     const refCaloriesInput = useRef();
+
+    const [caloriesStrVal, setCaloriesStrVal] = useState('');
+    const [proteinsStrVal, setProteinsStrVal] = useState('');
+    const [fatsStrVal, setFatsStrVal] = useState('');
+    const [carbohydratesStrVal, setCarbohydratesStrVal] = useState('');
+
+    const setNutrientValueInput = (propName, input, state, stateSetter) => {
+        if (input.trim() === '') {
+            food[propName] = 0;
+            stateSetter('');
+        }
+
+        const num = Number.parseFloat(input);
+
+        if (Number.isFinite(num) && num > 0) {
+            food[propName] = num;
+        }
+
+        stateSetter(input);
+    };
 
     return (
         <Card
@@ -119,10 +155,8 @@ const FoodListItem = observer(({ food, onDelete }) => {
                         keyboardType="numeric"
                         returnKeyType="next"
                         ref={refCaloriesInput}
-                        value={food.Calories ? food.Calories.toString() : ''}
-                        onChangeText={(val) => {
-                            food.Calories = Number.parseFloat(val);
-                        }}
+                        value={caloriesStrVal}
+                        onChangeText={(val) => setNutrientValueInput('Calories', val, caloriesStrVal, setCaloriesStrVal)}
                         onSubmitEditing={() => refProteinsInput.current.focus()}
                     />
 
@@ -134,10 +168,8 @@ const FoodListItem = observer(({ food, onDelete }) => {
                         keyboardType="numeric"
                         returnKeyType="next"
                         ref={refProteinsInput}
-                        value={food.Proteins ? food.Proteins.toString() : ''}
-                        onChangeText={(val) => {
-                            food.Proteins = Number.parseFloat(val);
-                        }}
+                        value={proteinsStrVal}
+                        onChangeText={(val) => setNutrientValueInput('Proteins', val, proteinsStrVal, setProteinsStrVal)}
                         onSubmitEditing={() => refFatsInput.current.focus()}
                     />
 
@@ -147,12 +179,10 @@ const FoodListItem = observer(({ food, onDelete }) => {
                         mode="outlined"
                         placeholder="Жиры (г)"
                         keyboardType="numeric"
-                        returnKeyType="done"
+                        returnKeyType="next"
                         ref={refFatsInput}
-                        value={food.Fats ? food.Fats.toString() : ''}
-                        onChangeText={(val) => {
-                            food.Fats = Number.parseFloat(val);
-                        }}
+                        value={fatsStrVal}
+                        onChangeText={(val) => setNutrientValueInput('Fats', val, fatsStrVal, setFatsStrVal)}
                         onSubmitEditing={() => refCarbohydratesInput.current.focus()}
                     />
 
@@ -162,11 +192,10 @@ const FoodListItem = observer(({ food, onDelete }) => {
                         mode="outlined"
                         placeholder="Углеводы (г)"
                         keyboardType="numeric"
+                        returnKeyType="done"
                         ref={refCarbohydratesInput}
-                        value={food.Carbohydrates ? food.Carbohydrates.toString() : ''}
-                        onChangeText={(val) => {
-                            food.Carbohydrates = Number.parseFloat(val);
-                        }}
+                        value={carbohydratesStrVal}
+                        onChangeText={(val) => setNutrientValueInput('Carbohydrates', val, carbohydratesStrVal, setCarbohydratesStrVal)}
                     />
                 </View>
             ) : null}
@@ -192,8 +221,10 @@ const AddMealtimeActivity = observer(() => {
         }
     });
 
+    const [mealTimeDialogVisible, setMealTimeDialogVisible] = useState(false);
+
     return (
-        <KeyboardAvoidingView style={styles.container} behavior="height">
+        <View style={styles.container} behavior="padding">
             <Appbar.Header
                 theme={{
                     colors: {
@@ -210,23 +241,54 @@ const AddMealtimeActivity = observer(() => {
 
                 <Appbar.Action
                     icon="check"
+                    disabled={meal.EatenFood.length === 0}
                     onPress={handleMealSubmit}
                 />
             </Appbar.Header>
 
-            <ScrollView
-                style={styles.foodList}
-            >
-                {meal.EatenFood.map((food) => (
-                    <FoodListItem
-                        food={food}
-                        onDelete={(item) => meal.EatenFood.remove(item)}
-                        key={food.Id}
-                    />
-                ))}
+            {mealTimeDialogVisible && (
+                <DateTimePicker
+                    timeZoneOffsetInMinutes={0}
+                    value={new Date(meal.MealTime)}
+                    mode="time"
+                    display="default"
+                    onChange={(event, selectedTime) => {
+                        const currentTime = selectedTime || new Date(meal.MealTime);
 
-                <View height={50} />
-            </ScrollView>
+                        setMealTimeDialogVisible(Platform.OS === 'ios');
+                        meal.MealTime = currentTime.getTime();
+                    }}
+                />
+            )}
+
+            <KeyboardAvoidingView behavior="padding">
+                <ScrollView
+                    style={styles.foodList}
+                >
+                    <Button
+                        icon="clock-outline"
+                        style={styles.buttonMealTime}
+                        mode="outlined"
+                        theme={buttonTheme}
+                        onPress={() => setMealTimeDialogVisible(true)}
+                        contentStyle={styles.buttonContent}
+                    >
+                        {(new Date(meal.MealTime)).toTimeString().slice(0, 5)}
+                    </Button>
+
+                    {meal.EatenFood.slice().map((food) => (
+                        <FoodListItem
+                            food={food}
+                            onDelete={(item) => {
+                                meal.removeFood(item);
+                            }}
+                            key={food.Id}
+                        />
+                    ))}
+
+                    <View height={50} />
+                </ScrollView>
+            </KeyboardAvoidingView>
 
             <FAB
                 theme={{
@@ -237,47 +299,14 @@ const AddMealtimeActivity = observer(() => {
                 style={styles.fab}
                 color={Colors.white}
                 icon="plus"
-                onPress={() => meal.EatenFood.push(new Product())}
+                onPress={() => {
+                    if (meal.EatenFood.length === 0 || meal.EatenFood[meal.EatenFood.length - 1].Name.trim() !== '') {
+                        meal.addFood(new Product());
+                    }
+                }}
             />
-        </KeyboardAvoidingView>
+        </View>
     );
 });
-
-/* <View>
-                <TextInput
-                    label="Блюдо"
-                    mode="outlined"
-                    value={currMeal}
-                    onChangeText={setCurrMeal}
-                    keyboardType="numeric"
-                    theme={{
-                        colors: {
-                            primary: Colors.cyan700,
-                        },
-                    }}
-                />
-
-                <Button
-                    mode="contained"
-                    theme={{ roundness: 10 }}
-                    style={styles.buttonAddMeasurement}
-                    contentStyle={styles.buttonContent}
-                >
-                    Добавить измерение
-                </Button>
-            </View>
-
-            <FlatList
-                data={food}
-                renderItem={({ item }) => null}
-            />
-
-            <Button
-                icon="close"
-                onPress={() => foodStore.removeMeal(item)}
-                color={Colors.red500}
-            >
-                Удалить
-            </Button> */
 
 export default AddMealtimeActivity;
