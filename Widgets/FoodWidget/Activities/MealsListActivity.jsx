@@ -8,6 +8,7 @@ import {
 } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
 import { foodStore } from '../FoodWidget';
+import antropometryStore from '../../../Stores/AntropometryStore';
 
 const styles = StyleSheet.create({
     container: {
