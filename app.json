@@ -28,7 +28,11 @@
     },
     "android": {
       "package": "com.soarexlenarin.fitnessapp",
-      "versionCode": 1
+      "versionCode": 1,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptiveIcon.png",
+        "backgroundColor": "#19cffc"
+      }
     }
   }
 }
