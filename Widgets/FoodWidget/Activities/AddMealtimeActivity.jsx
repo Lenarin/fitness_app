@@ -123,7 +123,7 @@ const FoodListItem = observer(({ food, onDelete }) => {
                     autoFocus
                     value={food.Name}
                     onChangeText={(val) => {
-                        food.Name = val.trim();
+                        food.Name = val;
                     }}
                     onSubmitEditing={() => refCaloriesInput.current.focus()}
                 />
