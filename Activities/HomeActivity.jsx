@@ -7,12 +7,14 @@ import { WeightWidget } from '../Widgets/WeightWidget/WeightWidget';
 import { FoodWidget } from '../Widgets/FoodWidget/FoodWidget';
 import WaterWidget from '../Widgets/WaterWidget/WaterWidget';
 import AntropometryWidget from '../Widgets/AntropometryWidget/AntropometryWidget';
+import AccountWidget from '../Widgets/AccountWidget/AccountWidget';
 
 import AntropometryActivity from '../Widgets/AntropometryWidget/Activities/AntropometryActivity';
 import AddMealtimeActivity from '../Widgets/FoodWidget/Activities/AddMealtimeActivity';
 import MealsListActivity from '../Widgets/FoodWidget/Activities/MealsListActivity';
 import WeightHistoryActivity from '../Widgets/WeightWidget/Activities/WeightHistoryActivity';
 import AddWeightMeasureActivity from '../Widgets/WeightWidget/Activities/AddWeightMeasureActivity';
+import RegisterActivity from '../Widgets/AccountWidget/Activities/RegisterActivity';
 
 const styles = StyleSheet.create({
     container: {
@@ -28,6 +30,16 @@ const HomeStack = createStackNavigator();
 
 
 const widgets = [
+    {
+        name: 'Account',
+        widget: AccountWidget,
+        activities: [
+            {
+                name: 'Register',
+                activity: RegisterActivity,
+            },
+        ],
+    },
     {
         name: 'Food',
         widget: FoodWidget,
