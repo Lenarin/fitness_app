@@ -13,38 +13,40 @@ class CoursesStore {
 
     // Mock course
     constructor() {
-        this.Courses.push(new Course(
-            'Фитнес с гантельками 101',
-            courseImages.Course_1_Image_14,
-            'Базовая тренировка по фитнессу с гантелями для отличного начала дня!',
-            [
-                exercisesStore.Exercises[0],
-                exercisesStore.Exercises[1],
-                exercisesStore.Exercises[2],
-                exercisesStore.Exercises[3],
-                exercisesStore.Exercises[4],
-                exercisesStore.Exercises[5],
-                exercisesStore.Exercises[6],
-                exercisesStore.Exercises[7],
-                exercisesStore.Exercises[8],
-                exercisesStore.Exercises[9],
-                exercisesStore.Exercises[10],
-                exercisesStore.Exercises[11],
-                exercisesStore.Exercises[12],
-                exercisesStore.Exercises[13],
-            ],
-        ),
-        new Course(
-            'Утренняя разминка',
-            courseImages.Course_1_Image_2,
-            'Разминка на утро перед тяжким рабочим днем',
-            [
-                exercisesStore.Exercises[2],
-                exercisesStore.Exercises[4],
-                exercisesStore.Exercises[5],
-                exercisesStore.Exercises[7],
-            ],
-        ));
+        this.Courses.push(
+            new Course(
+                'Фитнес с гантельками 101',
+                courseImages.Course_1_Image_14,
+                'Базовая тренировка по фитнессу с гантелями для отличного начала дня!',
+                [
+                    exercisesStore.Exercises.get('Выпад 1'),
+                    exercisesStore.Exercises.get('Махи 1'),
+                    exercisesStore.Exercises.get('Я не знаю как это назвать D:'),
+                    exercisesStore.Exercises.get('Учимся качать матрасс'),
+                    exercisesStore.Exercises.get('Танцуем!'),
+                    exercisesStore.Exercises.get('Уклонение от пуль'),
+                    exercisesStore.Exercises.get('Качау'),
+                    exercisesStore.Exercises.get('Болеем'),
+                    exercisesStore.Exercises.get('Целуйтей'),
+                    exercisesStore.Exercises.get('Я не знаю как это назвать 2'),
+                    exercisesStore.Exercises.get('У меня нет денег на штангу'),
+                    exercisesStore.Exercises.get('Михалыч'),
+                    exercisesStore.Exercises.get('Михалыч 2'),
+                    exercisesStore.Exercises.get('Гантельки'),
+                ],
+            ),
+            new Course(
+                'Утренняя разминка',
+                courseImages.Course_1_Image_2,
+                'Разминка на утро перед тяжким рабочим днем',
+                [
+                    exercisesStore.Exercises.get('Я не знаю как это назвать D:'),
+                    exercisesStore.Exercises.get('Танцуем!'),
+                    exercisesStore.Exercises.get('Уклонение от пуль'),
+                    exercisesStore.Exercises.get('Болеем'),
+                ],
+            ),
+        );
     }
 
     @action
