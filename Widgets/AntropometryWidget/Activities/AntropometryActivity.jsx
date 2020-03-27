@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import {
     StyleSheet, Platform, KeyboardAvoidingView,
 } from 'react-native';
-import { observer } from 'mobx-react';
 import {
     Colors, Button, Dialog, Portal, Provider, RadioButton, TextInput,
 } from 'react-native-paper';
@@ -75,7 +74,7 @@ const dailyActivity = [
     },
 ];
 
-const AntropometryActivity = observer(() => {
+const AntropometryActivity = (() => {
     const [goalDialogVisible, setDailyActivityDialogVisible] = useState(false);
     const [genderDialogVisible, setGenderDialogVisible] = useState(false);
     const [birthdayDialogVisible, setBirthdayDialogVisible] = useState(false);

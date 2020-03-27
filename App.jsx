@@ -7,6 +7,12 @@ import HomeActivity from './Activities/HomeActivity';
 import CalendarActivity from './Activities/CalendarActivity';
 import CoursesActivity from './Activities/CoursesActivity';
 
+import { RefreshToken } from './Api/UserApi';
+
+RefreshToken('test')
+    .then((res) => console.log(res))
+    .catch((err) => console.log(err));
+
 const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {
@@ -21,12 +27,12 @@ export default function App() {
                         if (route.name === 'Home') {
                             iconName = 'md-home';
                         } else
-                        if (route.name === 'Goals') {
-                            iconName = 'md-trophy';
-                        } else
-                        if (route.name === 'Courses') {
-                            iconName = 'md-medal';
-                        }
+                            if (route.name === 'Goals') {
+                                iconName = 'md-trophy';
+                            } else
+                                if (route.name === 'Courses') {
+                                    iconName = 'md-medal';
+                                }
 
                         return <Ionicons name={iconName} color={color} size={24} />;
                     },

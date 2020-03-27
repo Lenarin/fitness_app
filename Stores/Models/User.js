@@ -9,7 +9,7 @@ class User {
 
     constructor(id, username, email, password) {
         this.Id = id;
-        this.User = username;
+        this.Username = username;
         this.Email = email;
         this.Password = password;
     }

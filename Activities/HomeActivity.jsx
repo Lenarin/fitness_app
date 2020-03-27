@@ -15,6 +15,7 @@ import MealsListActivity from '../Widgets/FoodWidget/Activities/MealsListActivit
 import WeightHistoryActivity from '../Widgets/WeightWidget/Activities/WeightHistoryActivity';
 import AddWeightMeasureActivity from '../Widgets/WeightWidget/Activities/AddWeightMeasureActivity';
 import RegisterActivity from '../Widgets/AccountWidget/Activities/RegisterActivity';
+import LoginActivity from '../Widgets/AccountWidget/Activities/LoginActivity';
 
 const styles = StyleSheet.create({
     container: {
@@ -37,6 +38,10 @@ const widgets = [
             {
                 name: 'Register',
                 activity: RegisterActivity,
+            },
+            {
+                name: 'Login',
+                activity: LoginActivity,
             },
         ],
     },

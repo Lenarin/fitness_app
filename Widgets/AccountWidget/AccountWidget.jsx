@@ -64,7 +64,7 @@ const AccountWidget = observer(() => {
                 {!userStore.User
                     ? (
                         <>
-                            <Button color={Colors.cyan700} onPress={() => { }}>Вход</Button>
+                            <Button color={Colors.cyan700} onPress={() => navigator.navigate('Login')}>Вход</Button>
                             <Button color={Colors.cyan700} onPress={() => navigator.navigate('Register')}>Регистрация</Button>
                         </>
                     )
