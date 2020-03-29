@@ -7,12 +7,6 @@ import HomeActivity from './Activities/HomeActivity';
 import CalendarActivity from './Activities/CalendarActivity';
 import CoursesActivity from './Activities/CoursesActivity';
 
-import { RefreshToken } from './Api/UserApi';
-
-RefreshToken('test')
-    .then((res) => console.log(res))
-    .catch((err) => console.log(err));
-
 const Tab = createMaterialBottomTabNavigator();
 
 export default function App() {

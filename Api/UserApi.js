@@ -7,7 +7,7 @@ import ApiBasePath from '../Misc/Variables';
  * @param {*} user - an user to register (username, email and password required)
  * @returns sended user
  */
-export const RegisterUser = async (user) => {
+export async function RegisterUser(user) {
     const response = await fetch(`${ApiBasePath}/users`, {
         method: 'POST',
         headers: {
@@ -20,14 +20,14 @@ export const RegisterUser = async (user) => {
         return (user);
     }
     throw new Error(`Server error ${response}`);
-};
+}
 
 /**
  * Send login request
  * @param {*} user - a user to login (username and password required)
  * @returns authorization object
  */
-export const LoginUser = async (user) => {
+export async function LoginUser(user) {
     const response = await fetch(`${ApiBasePath}/users/login`, {
         method: 'POST',
         headers: {
@@ -45,14 +45,14 @@ export const LoginUser = async (user) => {
         throw new Error('Invalid username/password supplied');
     }
     throw new Error(`Server error: ${response}`);
-};
+}
 
 /**
  * Get user by username
  * @param {*} username - username of required user
  * @returns User object
  */
-export const GetUser = async (username) => {
+export async function GetUser(username) {
     const response = await fetch(`${ApiBasePath}/users/${username}`, {
         method: 'GET',
         headers: {
@@ -78,31 +78,4 @@ export const GetUser = async (username) => {
         throw new Error('User not found');
     }
     throw new Error(`Server error: ${response}`);
-};
-
-/**
- * Get user by username
- * @param {*} username - username of required user
- * @returns User object
- */
-export const RefreshToken = async (refreshtoken) => {
-    const response = await fetch(`${ApiBasePath}/users/token/refresh`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json;charset=utf-8',
-            Accept: 'application/json',
-        },
-        body: JSON.stringify({
-            refreshtoken,
-        }),
-    });
-    if (response.status === 200) {
-        const data = await response.json();
-        const res = new Authorization(data.accessToken, data.refreshToken, data.expiresIn);
-        return res;
-    }
-    if (response.status === 403) {
-        throw new Error('Invalid refresh token');
-    }
-    throw new Error(`Server error: ${response}`);
-};
+}
