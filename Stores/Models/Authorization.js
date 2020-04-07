@@ -3,12 +3,15 @@ class Authorization {
 
     RefreshToken = '';
 
-    ExpiresAfter = '';
+    AccessTokenExp;
 
-    constructor(accessToken, refreshToken, expiresAfter) {
+    RefreshTokenExp;
+
+    constructor(accessToken, refreshToken, accessTokenExp, refreshTokenExp) {
         this.AccessToken = accessToken;
         this.RefreshToken = refreshToken;
-        this.ExpiresAfter = expiresAfter;
+        this.AccessTokenExp = accessTokenExp;
+        this.RefreshTokenExp = refreshTokenExp;
     }
 }
 

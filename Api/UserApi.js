@@ -8,7 +8,7 @@ import ApiBasePath from '../Misc/Variables';
  * @returns sended user
  */
 export async function RegisterUser(user) {
-    const response = await fetch(`${ApiBasePath}/users`, {
+    let response = await fetch(`${ApiBasePath}/users`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -16,10 +16,11 @@ export async function RegisterUser(user) {
         },
         body: JSON.stringify(user),
     });
-    if (response.status === 201) {
+    if (response.status === 201 || response.status === 200) {
         return (user);
     }
-    throw new Error(`Server error ${response}`);
+    response = await response.json();
+    throw response;
 }
 
 /**
@@ -28,7 +29,7 @@ export async function RegisterUser(user) {
  * @returns authorization object
  */
 export async function LoginUser(user) {
-    const response = await fetch(`${ApiBasePath}/users/login`, {
+    const response = await fetch(`${ApiBasePath}/auth/login`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
@@ -38,13 +39,13 @@ export async function LoginUser(user) {
     });
     if (response.status === 200) {
         const data = await response.json();
-        const res = new Authorization(data.accessToken, data.refreshToken, data.expiresIn);
+        const res = new Authorization(data.accessToken, data.refreshToken, data.accessTokenExp, data.refreshTokenExp);
         return res;
     }
-    if (response.status === 400) {
+    if (response.status === 401) {
         throw new Error('Invalid username/password supplied');
     }
-    throw new Error(`Server error: ${response}`);
+    throw new Error('Server error');
 }
 
 /**

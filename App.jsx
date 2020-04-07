@@ -21,12 +21,12 @@ export default function App() {
                         if (route.name === 'Home') {
                             iconName = 'md-home';
                         } else
-                            if (route.name === 'Goals') {
-                                iconName = 'md-trophy';
-                            } else
-                                if (route.name === 'Courses') {
-                                    iconName = 'md-medal';
-                                }
+                        if (route.name === 'Goals') {
+                            iconName = 'md-trophy';
+                        } else
+                        if (route.name === 'Courses') {
+                            iconName = 'md-medal';
+                        }
 
                         return <Ionicons name={iconName} color={color} size={24} />;
                     },

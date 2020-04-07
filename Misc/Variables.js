@@ -1,3 +1,3 @@
-const ApiBasePath = 'https://virtserver.swaggerhub.com/Soarex16/fitness_app/1.0.0';
+const ApiBasePath = 'https://fabackend.herokuapp.com';
 
 export default ApiBasePath;

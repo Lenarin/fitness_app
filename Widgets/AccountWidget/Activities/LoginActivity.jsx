@@ -6,7 +6,12 @@ import {
     Colors, Button, Provider, TextInput, Card,
 } from 'react-native-paper';
 import { ScrollView } from 'react-native-gesture-handler';
-import { ValidatePassword } from '../../../Misc/Validator';
+import { useNavigation } from '@react-navigation/native';
+import { ValidatePassword, ValidateUsername } from '../../../Misc/Validator';
+import { LoginUser } from '../../../Api/UserApi';
+import User from '../../../Stores/Models/User';
+import AuthorizationStore from '../../../Stores/AuthorizationStore';
+import UserStore from '../../../Stores/UserStore';
 
 const styles = StyleSheet.create({
     container: {
@@ -39,22 +44,40 @@ const buttonTheme = {
 };
 
 const LoginActivity = (() => {
-    const [login, setLogin] = useState('');
+    const Navigator = useNavigation();
+
+    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [loginError, setLoginError] = useState('');
+    const [usernameError, setUsernameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [serverError, setServerError] = useState('');
     // TODO Continue login process
-    const handleRegister = () => {
-        if (login.length < 5) {
-            setLoginError('Логин должен быть не менее трех символов');
+    const handleLogin = async () => {
+        let hasErrors = false;
+        if (!ValidateUsername(username)) {
+            setUsernameError('Некорректный логин');
+            hasErrors = true;
         } else {
-            setLoginError('');
+            setUsernameError('');
         }
 
         if (!ValidatePassword(password)) {
             setPasswordError('Пароль должен быть не менее 8ми символов латинского алфавита и цифр, не менее одной цифры и не менее одной буквы');
+            hasErrors = true;
         } else {
             setPasswordError('');
+        }
+
+        if (hasErrors) return;
+
+        try {
+            const user = new User(null, username, null, password);
+            const auth = await LoginUser(user);
+            AuthorizationStore.SetAuthorization(auth);
+            UserStore.SetUser(user);
+            Navigator.goBack();
+        } catch (err) {
+            setServerError(err.message);
         }
     };
 
@@ -62,26 +85,27 @@ const LoginActivity = (() => {
         <Provider>
             <KeyboardAvoidingView behavior="padding">
                 <ScrollView style={styles.container}>
-                    {loginError || passwordError
+                    {usernameError || passwordError || serverError
                         ? (
                             <Card style={{ padding: 10 }}>
-                                {loginError ? <Text>{loginError}</Text> : null}
+                                {usernameError ? <Text>{usernameError}</Text> : null}
                                 {passwordError ? <Text>{passwordError}</Text> : null}
+                                {serverError ? <Text>{serverError}</Text> : null}
                             </Card>
                         )
                         : null}
                     <TextInput
                         label="Логин"
                         mode="outlined"
-                        value={login}
+                        value={username}
                         style={styles.antropometryInput}
                         theme={{
                             colors: {
                                 primary: Colors.cyan700,
                             },
                         }}
-                        error={loginError}
-                        onChangeText={(text) => setLogin(text)}
+                        error={usernameError}
+                        onChangeText={(text) => setUsername(text)}
                     />
                     <TextInput
                         label="Пароль"
@@ -101,7 +125,7 @@ const LoginActivity = (() => {
                         style={styles.antropometryInput}
                         mode="contained"
                         theme={buttonTheme}
-                        onPress={() => handleRegister()}
+                        onPress={() => handleLogin()}
                         contentStyle={styles.buttonContent}
                     >
                         Войти

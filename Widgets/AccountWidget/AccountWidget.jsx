@@ -5,7 +5,8 @@ import {
     Card, Avatar, Colors, Button, Subheading,
 } from 'react-native-paper';
 import { useNavigation } from '@react-navigation/native';
-import userStore from '../../Stores/UserStore';
+import UserStore from '../../Stores/UserStore';
+import AuthorizationStore from '../../Stores/AuthorizationStore';
 
 const styles = StyleSheet.create({
     container: {
@@ -39,6 +40,11 @@ const styles = StyleSheet.create({
     },
 });
 
+const handleLogout = () => {
+    UserStore.SetUser(null);
+    AuthorizationStore.SetAuthorization(null);
+};
+
 const AccountWidget = observer(() => {
     const navigator = useNavigation();
 
@@ -49,26 +55,26 @@ const AccountWidget = observer(() => {
             theme={{ roundness: 12 }}
         >
             <Card.Title
-                title={userStore.User ? `Привет, ${userStore.User.FirstName}` : 'Добро пожаловать'}
+                title={UserStore.User ? `Привет, ${UserStore.User.Username}` : 'Добро пожаловать'}
                 left={(props) => <Avatar.Icon {...props} icon="human" style={styles.cardIcon} />}
             />
 
             <Card.Content style={styles.cardContent}>
-                {!userStore.User
+                {!UserStore.User
                     // eslint-disable-next-line react/jsx-curly-brace-presence
-                    ? <Subheading>{'Позжалуйста, авторизируйтесь для сохраненния ваших данных'}</Subheading>
+                    ? <Subheading>{'Пожалуйста, авторизируйтесь для сохраненния ваших данных'}</Subheading>
                     : null}
             </Card.Content>
 
             <Card.Actions style={styles.cardActions}>
-                {!userStore.User
+                {!UserStore.User
                     ? (
                         <>
                             <Button color={Colors.cyan700} onPress={() => navigator.navigate('Login')}>Вход</Button>
                             <Button color={Colors.cyan700} onPress={() => navigator.navigate('Register')}>Регистрация</Button>
                         </>
                     )
-                    : <Button color={Colors.cyan700} onPress={() => { }}>Выход</Button>}
+                    : <Button color={Colors.cyan700} onPress={handleLogout}>Выход</Button>}
             </Card.Actions>
         </Card>
     );

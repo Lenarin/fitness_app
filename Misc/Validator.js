@@ -9,3 +9,8 @@ export const ValidatePassword = (pass) => {
     const re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
     return re.test(String(pass).toLowerCase());
 };
+
+export const ValidateUsername = (username) => {
+    const re = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,50}$/;
+    return re.test(String(username).toLowerCase());
+};

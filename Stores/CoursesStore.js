@@ -5,6 +5,7 @@ import { AsyncStorage } from 'react-native';
 import Course from './Models/Courses';
 import exercisesStore from './ExercisesStore';
 import * as courseImages from '../assets/couses_images';
+import GetCourses from '../Api/CoursesApi';
 
 class CoursesStore {
     @persist('list')
@@ -47,6 +48,8 @@ class CoursesStore {
                 ],
             ),
         );
+
+        GetCourses().then((courses) => console.log(courses));
     }
 
     @action
