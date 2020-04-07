@@ -9,9 +9,10 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { useNavigation } from '@react-navigation/native';
 import { ValidateEmail, ValidatePassword, ValidateUsername } from '../../../Misc/Validator';
 import User from '../../../Stores/Models/User';
-import { RegisterUser, LoginUser } from '../../../Api/UserApi';
+import { RegisterUser } from '../../../Api/UserApi';
 import userStore from '../../../Stores/UserStore';
 import authorizationStore from '../../../Stores/AuthorizationStore';
+import achievementStore from '../../../Stores/AchievementsStore';
 
 
 const styles = StyleSheet.create({
@@ -92,9 +93,9 @@ const RegisterActivity = (() => {
 
         try {
             user = await RegisterUser(user);
-            const auth = await LoginUser(user);
+            const auth = await userStore.Login(user);
             authorizationStore.SetAuthorization(auth);
-            userStore.SetUser(user);
+            achievementStore.fetchAchievements();
             Navigator.goBack();
         } catch (err) {
             if (err.username) setLoginError(err.username);

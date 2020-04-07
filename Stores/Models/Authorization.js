@@ -3,9 +3,9 @@ class Authorization {
 
     RefreshToken = '';
 
-    AccessTokenExp;
+    AccessTokenExp = '';
 
-    RefreshTokenExp;
+    RefreshTokenExp = '';
 
     constructor(accessToken, refreshToken, accessTokenExp, refreshTokenExp) {
         this.AccessToken = accessToken;

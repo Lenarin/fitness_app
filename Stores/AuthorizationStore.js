@@ -1,6 +1,7 @@
 import { observable, action } from 'mobx';
 import { persist, create } from 'mobx-persist';
 import { AsyncStorage } from 'react-native';
+import RefreshToken from '../Api/TokenApi';
 
 class AuthorizationStore {
     @persist('object')
@@ -25,6 +26,16 @@ class AuthorizationStore {
     @action
     SetAuthorization(authorization) {
         this.Authorization = authorization;
+    }
+
+    @action
+    async refreshTokens() {
+        try {
+            const auth = await RefreshToken(this.Authorization.RefreshToken);
+            this.SetAuthorization(auth);
+        } catch (err) {
+            console.error(err);
+        }
     }
 }
 

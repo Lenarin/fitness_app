@@ -1,4 +1,6 @@
 class Achievement {
+    Id = null;
+
     Date = '';
 
     Price = 0;
@@ -11,13 +13,14 @@ class Achievement {
 
     Title = '';
 
-    constructor(date, price, iconName, iconColor, description, title) {
+    constructor(date, price, iconName, iconColor, description, title, id = null) {
         this.Date = date;
         this.Price = price;
         this.IconName = iconName;
         this.IconColor = iconColor;
         this.Description = description;
         this.Title = title;
+        this.Id = id;
     }
 }
 

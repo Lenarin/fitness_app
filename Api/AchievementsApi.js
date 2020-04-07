@@ -1,16 +1,18 @@
 import ApiBasePath from '../Misc/Variables';
 
 /**
- * Get achivments by user id
- * @param {*} userId - user id whose achivment to receive
+ * Get achivments by username
+ * @param {*} username - username whose achivment to receive
+ * @param {*} token - user access token
  * @returns array of achivments
  */
-export async function GetAchievementsByUserId(userId) {
-    const response = await fetch(`${ApiBasePath}/achievements/${userId}`, {
+export async function GetAchievementsByUsername(username, token) {
+    const response = await fetch(`${ApiBasePath}/users/${username}/achievements`, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
             Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
         },
     });
     if (response.status === 200) {
@@ -23,16 +25,23 @@ export async function GetAchievementsByUserId(userId) {
     throw new Error(`Server error ${response}`);
 }
 
-export async function PostAchievementsByUserId(userId, achivement) {
-    const response = await fetch(`${ApiBasePath}/achievements/${userId}`, {
+/**
+ * Send new achievement by user
+ * @param {*} username - username of user
+ * @param {*} achievement / achievement to send
+ * @param {*} token - user access token
+ */
+export async function PostAchievementsByUsername(username, achievement, token) {
+    const response = await fetch(`${ApiBasePath}/users/${username}/achievements`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
             Accept: 'application/json',
+            Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(achivement),
+        body: JSON.stringify(achievement),
     });
-    if (response.status === 200) {
+    if (response.status === 201) {
         const res = await response.json();
         return res;
     }

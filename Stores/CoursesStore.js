@@ -49,7 +49,22 @@ class CoursesStore {
             ),
         );
 
-        GetCourses().then((courses) => console.log(courses));
+        GetCourses().then((courses) => {
+            courses.forEach((course) => {
+                if (this.Courses.find((elem) => elem.Label === course.label) === undefined) {
+                    const exercises = [];
+                    course.exercises.forEach((elem) => {
+                        const ex = exercisesStore.Exercises.get(elem);
+                        if (ex !== undefined) {
+                            exercises.push(ex);
+                        }
+                    });
+                    if (exercises.length > 0) {
+                        this.Courses.push(new Course(course.label, exercises[0].Image, course.description, exercises));
+                    }
+                }
+            });
+        });
     }
 
     @action

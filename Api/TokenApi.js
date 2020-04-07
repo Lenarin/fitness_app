@@ -7,7 +7,7 @@ import Authorization from '../Stores/Models/Authorization';
  * @returns new authorizaton object
  */
 export default async function RefreshToken(refreshtoken) {
-    const response = await fetch(`${ApiBasePath}/users/token/refresh`, {
+    const response = await fetch(`${ApiBasePath}/auth/refresh`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json;charset=utf-8',
